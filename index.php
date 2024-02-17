@@ -103,9 +103,10 @@ include('includes/config.php');
                             return 'red';  // Kurang dari 3, semakin merah
                         }
                     }
+                
                     // Your SQL query to fetch data from the tables
                     $sql = "
-                        SELECT offline_posts.*, offline_post_images.*, offline_post_analyze.*, categories.name AS category_name FROM offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id LEFT JOIN categories ON offline_posts.category_id = categories.id ORDER BY offline_posts.id DESC;
+                        SELECT offline_posts.*, offline_post_images.*, offline_post_analyze.*, tblcategory.CategoryName AS category_name FROM offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id LEFT JOIN tblcategory ON offline_posts.category_id = tblcategory.id ORDER BY offline_posts.id DESC;
                         "; // Adjust the JOIN condition based on your table structure
 
                     // $result = $mysqli->query($sql);
@@ -124,12 +125,12 @@ include('includes/config.php');
                                                 <?php echo $row['total']; ?>
                                             </span>
 
-                                            <img class="card-img-top" src="/cma-news-web-master/admin/<?php echo $row['url'] ?>" height="200px">
+                                            <img class="card-img-top" src="/cma-karanganyar/admin/<?php echo $row['url'] ?>" height="200px">
                                         </div>
                                         <div class="col-md-7">
                                             <div class="card-body">
                                                 <p class="m-0">
-                                                    <a href="">
+                                                    <a class="badge bg-success text-decoration-none link-light" href="">
                                                         <?php echo $row['category_name']; ?>
                                                     </a>
                                                     <!--category-->
@@ -137,15 +138,19 @@ include('includes/config.php');
                                                     </a> -->
                                                 </p>
                                                 <p class="mb-2"><small> Posted on <?php echo $row['posting_date'] ?></small></p>
-                                                <a href="news-details.php?nid=" class="card-title text-decoration-none text-dark">
-                                                    <h5 class="card-title">
-
+                                                    <a href="news-details.php?nid=" class="card-title text-decoration-none text-dark">
+                                                        <h4 class="card-title">
+                                                            <?php echo $row['title'] ?>
+                                                        </h4>
+                                                    </a>
+                                                </p>
+                                                <p class="m-0">
+                                                    <h6 class="card-title">
                                                         <?php echo $row['description'] ?>
-                                                    </h5>
-                                                </a>
+                                                    </h6>
                                                 </p>
                                             </div>
-                                        </div>++
+                                        </div>
                                     </div>
                                 </div>
                             </div>

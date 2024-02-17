@@ -46,16 +46,23 @@
     <div class="card-body">
       <ul class="mb-0 list-unstyled">
         <?php
-          $query=mysqli_query($con,"select tblposts_offline.id as pid,tblposts_offline.PostImage,tblposts_offline.PostTitle as posttitle from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId limit 8");
-          while ($row=mysqli_fetch_array($query)) 
-          {
+          // Your SQL query to fetch data from the tables
+          $sql = "
+          SELECT offline_posts.*, offline_post_images.*, offline_post_analyze.*, tblcategory.CategoryName AS category_name FROM offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id LEFT JOIN tblcategory ON offline_posts.category_id = tblcategory.id ORDER BY offline_posts.id DESC;
+          "; // Adjust the JOIN condition based on your table structure
+
+          // $result = $mysqli->query($sql);
+          $result = mysqli_query($con, $sql);
+          if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
         ?>
         
-        <li class="d-flex mb-2 align-items-center">
-          <img class="mr-2 rounded-circle" src="admin/postimages/<?php echo htmlentities($row['PostImage']);?>" alt="<?php echo htmlentities($row['posttitle']);?>" width="50px" height="50px">
-          <a href="news-details.php?nid=<?php echo htmlentities($row['pid'])?>" class="text-dark"><?php echo htmlentities($row['posttitle']);?></a>
-        </li>
-        <?php } ?>
+          <li class="d-flex mb-2 align-items-center">
+            <img class="mr-2 rounded-circle" src="/cma-karanganyar/admin/<?php echo $row['url'] ?>" width="50px" height="50px">
+            <a href="news-details.php?nid=<?php echo htmlentities($row['id'])?>" class="text-dark"><?php echo htmlentities($row['title']);?></a>
+          </li>
+        <?php }
+        } ?>
       </ul>
     </div>
   </div>
@@ -66,15 +73,22 @@
     <div class="card-body">
       <ul class="list-unstyled">
         <?php
-          $query1=mysqli_query($con,"select tblposts_offline.id as pid,tblposts_offline.PostTitle as posttitle from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId order by viewCounter desc limit 5");
-          while ($result=mysqli_fetch_array($query1)) 
-          {
+          // Your SQL query to fetch data from the tables
+          $sql = "
+          SELECT offline_posts.*, offline_post_images.*, offline_post_analyze.*, tblcategory.CategoryName AS category_name FROM offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id LEFT JOIN tblcategory ON offline_posts.category_id = tblcategory.id ORDER BY offline_posts.id DESC;
+          "; // Adjust the JOIN condition based on your table structure
+
+          // $result = $mysqli->query($sql);
+          $result = mysqli_query($con, $sql);
+          if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
         ?>
         
-        <li class="mb-2">
-          <a href="news-details.php?nid=<?php echo htmlentities($result['pid'])?>" class="text-dark"><?php echo htmlentities($result['posttitle']);?></a>
-        </li>
-        <?php } ?>
+          <li class="mb-2">
+            <a href="news-details.php?nid=<?php echo htmlentities($result['id'])?>" class="text-dark"><?php echo htmlentities($result['title']);?></a>
+          </li>
+        <?php } 
+        } ?>
       </ul>
     </div>
   </div>
