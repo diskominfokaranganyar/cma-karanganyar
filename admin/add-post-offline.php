@@ -105,7 +105,7 @@ if (strlen($_SESSION['login']) == 0) {
 
             // Query untuk melakukan insert
             $status=1;
-            $sql = "INSERT INTO `offline_posts` (`category_id`, `analyze_id`, `title`, `slug`, `source`, `description`, `active`, `posted_by`) VALUES ('$category_id', '$analyze_id', '$title', '$slug', '$source', '$description', '$status', '$postedby')";
+            $sql = "INSERT INTO offline_posts (category_id, analyze_id, title, slug, source, description, active, posted_by) VALUES ('$category_id', '$analyze_id', '$title', '$slug', '$source', '$description', '$status', '$postedby')";
 
             // Menjalankan query dan memeriksa apakah berhasil
             if ($con->query($sql) === TRUE) {
