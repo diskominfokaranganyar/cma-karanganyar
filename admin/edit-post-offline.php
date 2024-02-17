@@ -9,12 +9,14 @@
             $posttitle=$_POST['posttitle'];
             $catid=$_POST['category'];
             $postdetails=$_POST['postdescription'];
+            $source = $_POST['source'];
             $lastuptdby=$_SESSION['login'];
             $arr = explode(" ",$posttitle);
             $url=implode("-",$arr);
             $status=1;
             $postid=intval($_GET['pid']);
-            $query=mysqli_query($con,"update tblposts_offline set PostTitle='$posttitle',CategoryId='$catid',PostDetails='$postdetails',PostUrl='$url',Is_Active='$status',lastUpdatedBy='$lastuptdby' where id='$postid'");
+            $query=mysqli_query($con,"update offline_posts set title='$posttitle',source='$source',category_id='$catid',description='$postdetails',active='$status',last_updated_by='$lastuptdby' where id='$postid'");
+            // $query=mysqli_query($con,"update tblposts_offline set PostTitle='$posttitle',CategoryId='$catid',PostDetails='$postdetails',PostUrl='$url',Is_Active='$status',lastUpdatedBy='$lastuptdby' where id='$postid'");
             
             if($query) {
                 $msg="Post updated ";
@@ -121,7 +123,8 @@
 
                         <?php
                             $postid=intval($_GET['pid']);
-                            $query=mysqli_query($con,"select tblposts_offline.id as postid,tblposts_offline.PostImage,tblposts_offline.PostTitle as title,tblposts_offline.PostDetails,tblcategory.CategoryName as category,tblcategory.id as catid from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.id='$postid' and tblposts_offline.Is_Active=1 ");
+                            $query=mysqli_query($con,"select offline_posts.id as postid,tblposts_offline.PostImage,offline_posts.title as title,offline_posts.description,tblcategory.CategoryName as category,tblcategory.id as catid from offline_posts left join tblcategory on tblcategory.id=offline_posts.category_id where offline_posts.id='$postid' and offline_posts.Is_Active=1 ");
+                            // $query=mysqli_query($con,"select tblposts_offline.id as postid,tblposts_offline.PostImage,tblposts_offline.PostTitle as title,tblposts_offline.PostDetails,tblcategory.CategoryName as category,tblcategory.id as catid from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.id='$postid' and tblposts_offline.Is_Active=1 ");
                             while($row=mysqli_fetch_array($query))
                             {
                         ?>

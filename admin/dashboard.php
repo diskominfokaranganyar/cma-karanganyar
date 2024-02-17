@@ -122,7 +122,8 @@
                                             <p class="m-0 text-uppercase font-600 font-secondary text-overflow" title="User This Month">Berita Offline</p>
                                             
                                             <?php 
-                                                $query=mysqli_query($con,"select * from tblposts_offline where Is_Active=1");
+                                                $query=mysqli_query($con,"select * from offline_posts where active=1");                                            
+                                                // $query=mysqli_query($con,"select * from tblposts_offline where Is_Active=1");
                                                 $countposts=mysqli_num_rows($query);
                                             ?>
 
@@ -142,8 +143,9 @@
                                         <div class="wigdet-one-content">
                                             <p class="m-0 text-uppercase font-600 font-secondary text-overflow" title="User This Month">Berita Offline Terhapus</p>
                                             
-                                            <?php 
-                                                $query=mysqli_query($con,"select * from tblposts_offline where Is_Active=0");
+                                            <?php
+                                                $query=mysqli_query($con,"select * from offline_posts where active=0");                                              
+                                                // $query=mysqli_query($con,"select * from tblposts_offline where Is_Active=0");
                                                 $countposts=mysqli_num_rows($query);
                                             ?>
 
