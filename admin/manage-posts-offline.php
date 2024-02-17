@@ -82,7 +82,7 @@
 							<div class="col-xs-12">
 								<div class="page-title-box">
                                     <h4 class="page-title">Kelola Berita Offline</h4>
-                                    <ol class="breadcrumb p-0 m-0">
+                                    <!-- <ol class="breadcrumb p-0 m-0">
                                         <li>
                                             <a href="#">Admin</a>
                                         </li>
@@ -92,7 +92,7 @@
                                         <li class="active">
                                             Kelola Berita Offline
                                         </li>
-                                    </ol>
+                                    </ol> -->
                                     <div class="clearfix"></div>
                                 </div>
 							</div>

@@ -42,18 +42,11 @@ include('includes/config.php');
         <div class="col-md-8">
 
           <!-- Blog Post -->
-<?php 
+      <?php 
         if($_GET['catid']!=''){
-$_SESSION['catid']=intval($_GET['catid']);
-}
-             
-
-
-
-
-
-
-     if (isset($_GET['pageno'])) {
+          $_SESSION['catid']=intval($_GET['catid']);
+        }
+        if (isset($_GET['pageno'])) {
             $pageno = $_GET['pageno'];
         } else {
             $pageno = 1;
@@ -61,14 +54,14 @@ $_SESSION['catid']=intval($_GET['catid']);
         $no_of_records_per_page = 8;
         $offset = ($pageno-1) * $no_of_records_per_page;
 
-
-        $total_pages_sql = "SELECT COUNT(*) FROM tblposts";
+        $total_pages_sql = "SELECT COUNT(*) FROM offline_posts";
+        // $total_pages_sql = "SELECT COUNT(*) FROM tblposts";
         $result = mysqli_query($con,$total_pages_sql);
         $total_rows = mysqli_fetch_array($result)[0];
         $total_pages = ceil($total_rows / $no_of_records_per_page);
 
-
-$query=mysqli_query($con,"select tblposts.id as pid,tblposts.PostTitle as posttitle,tblposts.PostImage,tblcategory.CategoryName as category,tblsubcategory.Subcategory as subcategory,tblposts.PostDetails as postdetails,tblposts.PostingDate as postingdate,tblposts.PostUrl as url from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join  tblsubcategory on  tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.CategoryId='".$_SESSION['catid']."' and tblposts.Is_Active=1 order by tblposts.id desc LIMIT $offset, $no_of_records_per_page");
+        $query=mysqli_query($con,"select offline_posts.id as pid,offline_posts.title as posttitle,tblcategory.CategoryName as category,offline_posts.description as description,offline_posts.posting_date as postingdate from offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id left join tblcategory on tblcategory.id=offline_posts.category_id where offline_posts.category_id='".$_SESSION['catid']."' and offline_posts.active=1 order by offline_posts.id desc LIMIT $offset, $no_of_records_per_page");
+        // $query=mysqli_query($con,"select tblposts.id as pid,tblposts.PostTitle as posttitle,tblposts.PostImage,tblcategory.CategoryName as category,tblsubcategory.Subcategory as subcategory,tblposts.PostDetails as postdetails,tblposts.PostingDate as postingdate,tblposts.PostUrl as url from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join  tblsubcategory on  tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.CategoryId='".$_SESSION['catid']."' and tblposts.Is_Active=1 order by tblposts.id desc LIMIT $offset, $no_of_records_per_page");
 
 $rowcount=mysqli_num_rows($query);
 if($rowcount==0)

@@ -61,13 +61,13 @@ $st;
         $offset = ($pageno-1) * $no_of_records_per_page;
 
 
-        $total_pages_sql = "SELECT COUNT(*) FROM tblposts";
+        $total_pages_sql = "SELECT COUNT(*) FROM offline_posts";
         $result = mysqli_query($con,$total_pages_sql);
         $total_rows = mysqli_fetch_array($result)[0];
         $total_pages = ceil($total_rows / $no_of_records_per_page);
 
-
-$query=mysqli_query($con,"select tblposts.id as pid,tblposts.PostTitle as posttitle,tblcategory.CategoryName as category,tblsubcategory.Subcategory as subcategory,tblposts.PostDetails as postdetails,tblposts.PostingDate as postingdate,tblposts.PostUrl as url,tblposts.PostImage from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join  tblsubcategory on  tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.PostTitle like '%$st%' and tblposts.Is_Active=1 LIMIT $offset, $no_of_records_per_page");
+        $query=mysqli_query($con,"select offline_posts.id as pid,offline_posts.title as posttitle,tblcategory.CategoryName as category,offline_posts.description as postdetails,offline_posts.posting_date as postingdate from offline_posts left join tblcategory on tblcategory.id=offline_posts.category_id where offline_posts.title like '%$st%' and offline_posts.active=1 LIMIT $offset, $no_of_records_per_page");
+        // $query=mysqli_query($con,"select tblposts.id as pid,tblposts.PostTitle as posttitle,tblcategory.CategoryName as category,tblsubcategory.Subcategory as subcategory,tblposts.PostDetails as postdetails,tblposts.PostingDate as postingdate,tblposts.PostUrl as url,tblposts.PostImage from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join  tblsubcategory on  tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.PostTitle like '%$st%' and tblposts.Is_Active=1 LIMIT $offset, $no_of_records_per_page");
 
 $rowcount=mysqli_num_rows($query);
 if($rowcount==0)

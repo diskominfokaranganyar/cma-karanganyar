@@ -206,7 +206,7 @@ if (strlen($_SESSION['login']) == 0) {
                             <div class="col-xs-12">
                                 <div class="page-title-box">
                                     <h4 class="page-title">Tambah Berita Offline </h4>
-                                    <ol class="breadcrumb p-0 m-0">
+                                    <!-- <ol class="breadcrumb p-0 m-0">
                                         <li>
                                             <a href="#">Admin</a>
                                         </li>
@@ -216,7 +216,7 @@ if (strlen($_SESSION['login']) == 0) {
                                         <li class="active">
                                             Tambah Berita Offline
                                         </li>
-                                    </ol>
+                                    </ol> -->
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
