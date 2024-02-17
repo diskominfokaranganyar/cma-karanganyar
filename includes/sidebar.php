@@ -48,7 +48,7 @@
         <?php
           // Your SQL query to fetch data from the tables
           $sql = "
-          SELECT offline_posts.*, offline_post_images.*, offline_post_analyze.*, tblcategory.CategoryName AS category_name FROM offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id LEFT JOIN tblcategory ON offline_posts.category_id = tblcategory.id ORDER BY offline_posts.id DESC;
+          SELECT offline_posts.*, offline_post_images.*, offline_post_analyze.*, tblcategory.CategoryName AS category_name FROM offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id LEFT JOIN tblcategory ON offline_posts.category_id = tblcategory.id ORDER BY offline_posts.id DESC limit 8;
           "; // Adjust the JOIN condition based on your table structure
 
           // $result = $mysqli->query($sql);
@@ -74,21 +74,16 @@
       <ul class="list-unstyled">
         <?php
           // Your SQL query to fetch data from the tables
-          $sql = "
-          SELECT offline_posts.*, offline_post_images.*, offline_post_analyze.*, tblcategory.CategoryName AS category_name FROM offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id LEFT JOIN tblcategory ON offline_posts.category_id = tblcategory.id ORDER BY offline_posts.id DESC;
-          "; // Adjust the JOIN condition based on your table structure
+          $query1 = mysqli_query($con, "select offline_posts.id as id,offline_posts.title as title from offline_posts left join tblcategory on tblcategory.id=offline_posts.category_id order by view_counter desc limit 5"); // Adjust the JOIN condition based on your table structure
 
-          // $result = $mysqli->query($sql);
-          $result = mysqli_query($con, $sql);
-          if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
+          while ($result=mysqli_fetch_array($query1)) 
+          {
         ?>
         
           <li class="mb-2">
             <a href="news-details.php?nid=<?php echo htmlentities($result['id'])?>" class="text-dark"><?php echo htmlentities($result['title']);?></a>
           </li>
-        <?php } 
-        } ?>
+        <?php } ?>
       </ul>
     </div>
   </div>
