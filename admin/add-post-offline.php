@@ -100,10 +100,13 @@ if (strlen($_SESSION['login']) == 0) {
             $title = $_POST['title'];
             $description = $_POST['description'];
             $postedby=$_SESSION['login'];
+            $postedby=$_SESSION['login'];
             $slug = generateSlug($title);
             $source = $_POST['source'];
 
             // Query untuk melakukan insert
+            $status=1;
+            $sql = "INSERT INTO `offline_posts` (`category_id`, `analyze_id`, `title`, `slug`, `source`, `description`, `active`, `posted_by`) VALUES ('$category_id', '$analyze_id', '$title', '$slug', '$source', '$description', '$status', '$postedby')";
             $status=1;
             $sql = "INSERT INTO offline_posts (category_id, analyze_id, title, slug, source, description, active, posted_by) VALUES ('$category_id', '$analyze_id', '$title', '$slug', '$source', '$description', '$status', '$postedby')";
 
@@ -113,6 +116,7 @@ if (strlen($_SESSION['login']) == 0) {
                 // Mendapatkan ID terbaru dari postingan
                 $postQuery = "SELECT id FROM offline_posts ORDER BY id DESC LIMIT 1";
                 $result = mysqli_query($con, $postQuery);
+                
                 
                 if ($result) {
                     $row = mysqli_fetch_assoc($result);
@@ -126,6 +130,7 @@ if (strlen($_SESSION['login']) == 0) {
 
                         // Loop through each file
                         foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
+                            $imgnewfile=md5($imgfile).$extension;
                             $imgnewfile=md5($imgfile).$extension;
                             $name = $_FILES['images']['name'][$key];
                             $url = "postimages/" . $name; // Gantilah dengan path yang sesuai

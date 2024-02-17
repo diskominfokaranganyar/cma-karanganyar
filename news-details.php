@@ -1,33 +1,14 @@
 <?php 
   session_start();
   include('includes/config.php');
-  //Genrating CSRF Token
-  if (empty($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-  }
-  if(isset($_POST['submit'])) {
-    //Verifying CSRF Token
-    if (!empty($_POST['csrftoken'])) {
-      if (hash_equals($_SESSION['token'], $_POST['csrftoken'])) {
-        $name=$_POST['name'];
-        $email=$_POST['email'];
-        $postid=intval($_GET['nid']);
-        $st1='0';
-        if($query):
-          echo "<script>alert('comment successfully submit. Comment will be display after admin review ');</script>";
-          unset($_SESSION['token']); else :
-            echo "<script>alert('Something went wrong. Please try again.');</script>";  
-        endif;
-      }
-    }
-  }
+  
   $postid=intval($_GET['nid']);
-  $sql = "SELECT viewCounter FROM tblposts_offline WHERE id = '$postid'";
+  $sql = "SELECT view_counter FROM offline_posts ORDER BY offline_posts.id";
   $result = $con->query($sql);
   if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-      $visits = $row["viewCounter"];
-      $sql = "UPDATE tblposts_offline SET viewCounter = $visits+1 WHERE id ='$postid'";
+      $visits = $row["view_counter"];
+      $sql = "UPDATE offline_posts SET view_counter = $visits+1 ORDER BY offline_posts.id";
       $con->query($sql);
     }
   } else {
@@ -68,19 +49,27 @@
           <?php
             $pid=intval($_GET['nid']);
             $currenturl="http://".$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];;
-            $query=mysqli_query($con,"select tblposts_offline.PostTitle as posttitle,tblposts_offline.PostImage,tblcategory.CategoryName as category,tblcategory.id as cid,tblposts_offline.PostDetails as postdetails,tblposts_offline.PostingDate as postingdate,tblposts_offline.PostUrl as url,tblposts_offline.postedBy,tblposts_offline.lastUpdatedBy,tblposts_offline.UpdationDate from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.id='$pid'");
-            while ($row=mysqli_fetch_array($query)) {
+            
+            // Your SQL query to fetch data from the tables
+            $query = "
+            SELECT offline_posts.*, offline_post_images.*, offline_post_analyze.*, tblcategory.CategoryName AS category_name FROM offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id LEFT JOIN tblcategory ON offline_posts.category_id = tblcategory.id ORDER BY offline_posts.id DESC;
+            "; // Adjust the JOIN condition based on your table structure
+
+            // $result = $mysqli->query($sql);
+            $result = mysqli_query($con, $query);
+            if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
           ?>
 
           <div class="card mb-4">
             <div class="card-body">
-              <h2 class="card-title"><?php echo htmlentities($row['posttitle']);?></h2>
+              <h2 class="card-title"><?php echo htmlentities($row['title']);?></h2>
               <!--category-->
-              <a class="badge bg-secondary text-decoration-none link-light" href="category.php?catid=<?php echo htmlentities($row['cid'])?>" style="color:#fff"><?php echo htmlentities($row['category']);?></a>
+              <a class="badge bg-secondary text-decoration-none link-light" href="category.php?catid=<?php echo $row['id']; ?>" style="color:#fff"><?php echo htmlentities($row['category_name']);?></a>
               <p>
-                <b>Posted by </b> <?php echo htmlentities($row['postedBy']);?> on </b><?php echo htmlentities($row['postingdate']);?> |
-                <?php if($row['lastUpdatedBy']!=''):?>
-                  <b>Last Updated by </b> <?php echo htmlentities($row['lastUpdatedBy']);?> on </b><?php echo htmlentities($row['UpdationDate']);?></p>
+                <b>Posted by </b> <?php echo htmlentities($row['posted_by']);?> on </b><?php echo htmlentities($row['posting_date']);?> |
+                <?php if($row['last_updated_by']!=''):?>
+                  <b>Last Updated by </b> <?php echo htmlentities($row['last_updated_by']);?> on </b><?php echo htmlentities($row['updated_date']);?></p>
                 <?php endif;?>
                 <p><strong>Share:</strong> <a href="http://www.facebook.com/share.php?u=<?php echo $currenturl;?>" target="_blank">Facebook</a> | 
                   <a href="https://twitter.com/share?url=<?php echo $currenturl;?>" target="_blank">Twitter</a> |
@@ -88,16 +77,17 @@
                   <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=<?php echo $currenturl;?>" target="_blank">Linkedin</a>  <b>Visits:</b> <?php print $visits; ?>
                 </p>
                 <hr />
-                <img class="img-fluid rounded" src="admin/postimages/<?php echo htmlentities($row['PostImage']);?>" alt="<?php echo htmlentities($row['posttitle']);?>">
+                <img class="img-fluid rounded" src="/cma-karanganyar/admin/<?php echo $row['url'] ?>" alt="<?php echo htmlentities($row['title']);?>">
                 <p class="card-text">
                   <?php 
-                    $pt=$row['postdetails'];
+                    $pt=$row['description'];
                     echo  (substr($pt,0));?></p>
               </div>
             <div class="card-footer text-muted">
             </div>
           </div>
-          <?php } ?>
+          <?php } 
+          } ?>
         </div>
 
         <!-- Sidebar Widgets Column -->
