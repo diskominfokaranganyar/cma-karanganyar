@@ -9,7 +9,7 @@
             $category=$_POST['category'];
             $description=$_POST['description'];
             $status=1;
-            $query=mysqli_query($con,"insert into tblcategory(CategoryName,Description,Is_Active) values('$category','$description','$status')");
+            $query=mysqli_query($con,"insert into categories(name,description,active) values('$category','$description','$status')");
             
             if($query) {
                 $msg="Category created ";
@@ -61,7 +61,7 @@
 							<div class="col-xs-12">
 								<div class="page-title-box">
                                     <h4 class="page-title">Tambah Kategori</h4>
-                                    <ol class="breadcrumb p-0 m-0">
+                                    <!-- <ol class="breadcrumb p-0 m-0">
                                         <li>
                                             <a href="#">Admin</a>
                                         </li>
@@ -71,7 +71,7 @@
                                         <li class="active">
                                             Tambah Kategori
                                         </li>
-                                    </ol>
+                                    </ol> -->
                                     <div class="clearfix"></div>
                                 </div>
 							</div>

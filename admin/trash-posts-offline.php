@@ -7,7 +7,8 @@
     } else {
         if($_GET['action']='restore') {
             $postid=intval($_GET['pid']);
-            $query=mysqli_query($con,"update tblposts_offline set Is_Active=1 where id='$postid'");
+            $query=mysqli_query($con,"update offline_posts set active=1 where id='$postid'");
+            // $query=mysqli_query($con,"update tblposts_offline set Is_Active=1 where id='$postid'");
             if($query) {
                 $msg="Post restored successfully ";
             } else {
@@ -17,7 +18,7 @@
         // Code for Forever deletionparmdel
         if($_GET['presid']) {
             $id=intval($_GET['presid']);
-            $query=mysqli_query($con,"delete from  tblposts_offline  where id='$id'");
+            $query=mysqli_query($con,"delete from  offline_posts  where id='$id'");
             $delmsg="Post deleted forever";
         }
 ?>
@@ -87,7 +88,7 @@
 							<div class="col-xs-12">
 								<div class="page-title-box">
                                     <h4 class="page-title">Berita Offline Terhapus </h4>
-                                    <ol class="breadcrumb p-0 m-0">
+                                    <!-- <ol class="breadcrumb p-0 m-0">
                                         <li>
                                             <a href="#">Admin</a>
                                         </li>
@@ -97,7 +98,7 @@
                                         <li class="active">
                                             Berita Offline Terhapus
                                         </li>
-                                    </ol>
+                                    </ol> -->
                                     <div class="clearfix"></div>
                                 </div>
 							</div>
@@ -126,7 +127,8 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        $query=mysqli_query($con,"select tblposts_offline.id as postid,tblposts_offline.PostTitle as title,tblcategory.CategoryName as category from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.Is_Active=0");
+                                                        $query=mysqli_query($con,"select offline_posts.id as postid,offline_posts.title as title,categories.name as category from offline_posts left join categories on categories.id=offline_posts.category_id where offline_posts.active=0");                                                   
+                                                        // $query=mysqli_query($con,"select tblposts_offline.id as postid,tblposts_offline.PostTitle as title,tblcategory.CategoryName as category from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.Is_Active=0");
                                                         $rowcount=mysqli_num_rows($query);
                                                         if($rowcount==0)
                                                         {
@@ -143,9 +145,9 @@
                                                                 <td><b><?php echo htmlentities($row['title']);?></b></td>
                                                                 <td><?php echo htmlentities($row['category'])?></td>
                                                                 <td>
-                                                                    <a href="trash-posts-offline.php?pid=<?php echo htmlentities($row['postid']);?>&&action=restore" onclick="return confirm('Do you really want to restore ?')"> <i class="ion-arrow-return-right" title="Restore this Post"></i></a>
+                                                                    <a href="trash-posts-offline.php?pid=<?php echo htmlentities($row['postid']);?>&&action=restore" onclick="return confirm('Apakah anda ingin memulihkannya ?')"> <i class="ion-arrow-return-right" title="Restore this Post"></i></a>
                                                                     &nbsp;
-                                                                    <a href="trash-posts-offline.php?presid=<?php echo htmlentities($row['postid']);?>&&action=perdel" onclick="return confirm('Do you really want to delete ?')"><i class="fa fa-trash-o" style="color: #f05050" title="Permanently delete this post"></i></a> 
+                                                                    <a href="trash-posts-offline.php?presid=<?php echo htmlentities($row['postid']);?>&&action=perdel" onclick="return confirm('Apakah anda ingin menghapus permanen ?')"><i class="fa fa-trash-o" style="color: #f05050" title="Permanently delete this post"></i></a> 
                                                                 </td>
                                                             </tr>
                                                             <?php } }?>

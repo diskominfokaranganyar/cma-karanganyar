@@ -78,7 +78,7 @@
 							<div class="col-xs-12">
 								<div class="page-title-box">
                                     <h4 class="page-title">Dashboard</h4>
-                                    <ol class="breadcrumb p-0 m-0">
+                                    <!-- <ol class="breadcrumb p-0 m-0">
                                         <li>
                                             <a href="#">Diskominfo News</a>
                                         </li>
@@ -88,7 +88,7 @@
                                         <li class="active">
                                             Dashboard
                                         </li>
-                                    </ol>
+                                    </ol> -->
                                     <div class="clearfix"></div>
                                 </div>
 							</div>
@@ -132,6 +132,25 @@
                                     </div>
                                 </div>
                             </a><!-- end col -->
+
+                            <a href="manage-posts-offline.php">                       
+                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <div class="card-box widget-box-one">
+                                        <i class="mdi mdi-layers widget-one-icon"></i>
+                                        <div class="wigdet-one-content">
+                                            <p class="m-0 text-uppercase font-600 font-secondary text-overflow" title="User This Month">Berita Online</p>
+                                            
+                                            <?php 
+                                                $query=mysqli_query($con,"select * from online_posts where active=1");                                            
+                                                // $query=mysqli_query($con,"select * from tblposts_offline where Is_Active=1");
+                                                $countposts=mysqli_num_rows($query);
+                                            ?>
+
+                                            <h2><?php echo htmlentities($countposts);?> <small></small></h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a><!-- end col -->
                         </div>
                         <!-- end row -->
    
@@ -145,6 +164,25 @@
                                             
                                             <?php
                                                 $query=mysqli_query($con,"select * from offline_posts where active=0");                                              
+                                                // $query=mysqli_query($con,"select * from tblposts_offline where Is_Active=0");
+                                                $countposts=mysqli_num_rows($query);
+                                            ?>
+
+                                            <h2><?php echo htmlentities($countposts);?> <small></small></h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="trash-posts-online.php"> 
+                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <div class="card-box widget-box-one">
+                                        <i class="mdi mdi-layers widget-one-icon"></i>
+                                        <div class="wigdet-one-content">
+                                            <p class="m-0 text-uppercase font-600 font-secondary text-overflow" title="User This Month">Berita Online Terhapus</p>
+                                            
+                                            <?php
+                                                $query=mysqli_query($con,"select * from online_posts where active=0");                                              
                                                 // $query=mysqli_query($con,"select * from tblposts_offline where Is_Active=0");
                                                 $countposts=mysqli_num_rows($query);
                                             ?>

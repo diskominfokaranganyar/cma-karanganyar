@@ -202,28 +202,27 @@ include('includes/config.php');
                                 <div class="card mb-2 border-0">
                                     <div class="row g-0 align-items-center">
                                         <div class="col-md-5 justify-content-center align-items-center">
-                                            <span class="rating-label" style="padding: 5px 10px; background-color: <?php echo getColorBasedOnRating($row['total']); ?>">
-                                                <?php echo $row['total']; ?>
-                                            </span>
-
                                             <img class="card-img-top" src="/cma-karanganyar/admin/<?php echo $row['url'] ?>" height="200px">
                                         </div>
                                         <div class="col-md-7">
-                                            <div class="card-body">
-                                                <p class="m-0">
-                                                    <a class="badge bg-success text-decoration-none link-light" href="">
+                                            <div class="card-body row">
+                                                <p class="m-0 row justify-content-between">
+                                                    <a class="badge col-6 bg-success w-50 text-decoration-none link-light" href="">
                                                         <?php echo $row['category_name']; ?>
                                                     </a>
+                                                    <span class="rating-label text-center col-2 w-50" style="padding: 5px 10px; background-color: <?php echo getColorBasedOnRating($row['total']); ?>">
+                                                        <?php echo $row['total']; ?>
+                                                    </span>
                                                     <!--category-->
                                                     <!-- <a class="badge bg-success text-decoration-none link-light" href="category.php?catid=" style="color:#fff">
                                                     </a> -->
                                                 </p>
                                                 <p class="mb-2"><small> Posted on <?php echo $row['posting_date'] ?></small></p>
-                                                <a href="news-details.php?id_offline_posts=<?php echo $row['id_offline_posts'] ?>" class="card-title text-decoration-none text-dark">
-                                                    <h4 class="card-title">
-                                                        <?php echo $row['title'] ?>
-                                                    </h4>
-                                                </a>
+                                                    <a href="news-details.php?nid=" class="card-title text-decoration-none text-dark">
+                                                        <h4 class="card-title">
+                                                            <?php echo $row['title'] ?>
+                                                        </h4>
+                                                    </a>
                                                 </p>
                                                 <p class="m-0">
                                                 <h6 class="card-title">

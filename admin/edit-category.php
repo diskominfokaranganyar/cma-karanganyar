@@ -9,7 +9,7 @@
             $catid=intval($_GET['cid']);
             $category=$_POST['category'];
             $description=$_POST['description'];
-            $query=mysqli_query($con,"Update  tblcategory set CategoryName='$category',Description='$description' where id='$catid'");
+            $query=mysqli_query($con,"Update  categories set name='$category',description='$description' where id='$catid'");
             if($query) {
                 $msg="Category Updated successfully ";
             } else { 
@@ -57,7 +57,7 @@
 							<div class="col-xs-12">
 								<div class="page-title-box">
                                     <h4 class="page-title">Sunting Kategori</h4>
-                                    <ol class="breadcrumb p-0 m-0">
+                                    <!-- <ol class="breadcrumb p-0 m-0">
                                         <li>
                                             <a href="#">Admin</a>
                                         </li>
@@ -67,7 +67,7 @@
                                         <li class="active">
                                             Sunting Kategori
                                         </li>
-                                    </ol>
+                                    </ol> -->
                                     <div class="clearfix"></div>
                                 </div>
 							</div>
@@ -99,7 +99,7 @@
 
                                     <?php 
                                         $catid=intval($_GET['cid']);
-                                        $query=mysqli_query($con,"Select id,CategoryName,Description,PostingDate,UpdationDate from  tblcategory where Is_Active=1 and id='$catid'");
+                                        $query=mysqli_query($con,"Select id,name,description,posting_date,updated_date from  categories where active=1 and id='$catid'");
                                         $cnt=1;
                                         while($row=mysqli_fetch_array($query))
                                         {
@@ -111,14 +111,14 @@
 	                                            <div class="form-group">
 	                                                <label class="col-md-2 control-label">Kategori</label>
 	                                                <div class="col-md-10">
-	                                                    <input type="text" class="form-control" value="<?php echo htmlentities($row['CategoryName']);?>" name="category" required>
+	                                                    <input type="text" class="form-control" value="<?php echo htmlentities($row['name']);?>" name="category" required>
 	                                                </div>
 	                                            </div>
 	                                     
 	                                            <div class="form-group">
 	                                                <label class="col-md-2 control-label">Deskripsi Kategori</label>
 	                                                <div class="col-md-10">
-                                                        <textarea class="form-control" rows="5" name="description" required><?php echo htmlentities($row['Description']);?></textarea>
+                                                        <textarea class="form-control" rows="5" name="description" required><?php echo htmlentities($row['description']);?></textarea>
 	                                                </div>
 	                                            </div>
                                                 <?php } ?>

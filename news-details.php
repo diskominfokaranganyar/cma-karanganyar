@@ -18,27 +18,28 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <title>Diskominfo News</title>
-    <link rel="icon" type="image/x-icon" href="asset/Logo.png">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <title>Diskominfo News</title>
+  <link rel="icon" type="image/x-icon" href="asset/Logo.png">
 
-    <!-- Custom styles for this template -->
-    <link href="css/modern-business.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  </head>
+  <!-- Custom styles for this template -->
+  <link href="css/modern-business.css" rel="stylesheet">
 
-  <body>
+</head>
 
-    <!-- Navigation -->
-    <?php include('includes/header.php');?>
+<body>
+
+  <!-- Navigation -->
+  <?php include('includes/header.php'); ?>
 
     <!-- Page Content -->
     <div class="container">
@@ -55,11 +56,11 @@
             SELECT offline_posts.*, offline_post_images.*, offline_post_analyze.*, categories.id AS cid, categories.name AS category_name FROM offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id LEFT JOIN categories ON offline_posts.category_id = categories.id where offline_posts.id='$pid';
             "; // Adjust the JOIN condition based on your table structure
 
-            // $result = $mysqli->query($sql);
-            $result = mysqli_query($con, $query);
-            if ($result->num_rows > 0) {
-              while ($row = $result->fetch_assoc()) {
-          ?>
+        // $result = $mysqli->query($sql);
+        $result = mysqli_query($con, $query);
+        if ($result->num_rows > 0) {
+          while ($row = $result->fetch_assoc()) {
+        ?>
 
           <div class="card mb-4">
             <div class="card-body">
@@ -83,25 +84,26 @@
                     $pt=$row['description'];
                     echo  (substr($pt,0));?></p>
               </div>
-            <div class="card-footer text-muted">
+              <div class="card-footer text-muted">
+              </div>
             </div>
-          </div>
-          <?php } 
-          } ?>
-        </div>
-
-        <!-- Sidebar Widgets Column -->
-        <?php include('includes/sidebar.php');?>
+        <?php }
+        } ?>
       </div>
-      <!-- /.row -->
+
+      <!-- Sidebar Widgets Column -->
+      <?php include('includes/sidebar.php'); ?>
     </div>
-    <?php include('includes/footer.php');?>
+    <!-- /.row -->
+  </div>
+  <?php include('includes/footer.php'); ?>
 
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
-  </body>
+</body>
 
 </html>

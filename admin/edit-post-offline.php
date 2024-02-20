@@ -6,16 +6,19 @@
         header('location:index.php');
     } else {
         if(isset($_POST['update'])) {
-            $posttitle=$_POST['posttitle'];
-            $catid=$_POST['category'];
-            $postdetails=$_POST['postdescription'];
+            $title = $_POST['title'];
+            $category_id = $_POST['category_id'];
+            $description = $_POST['description'];
+            // $posttitle=$_POST['posttitle'];
+            // $catid=$_POST['category'];
+            // $postdetails=$_POST['postdescription'];
             $source = $_POST['source'];
             $lastuptdby=$_SESSION['login'];
-            $arr = explode(" ",$posttitle);
+            $arr = explode(" ",$title);
             $url=implode("-",$arr);
             $status=1;
             $postid=intval($_GET['pid']);
-            $query=mysqli_query($con,"update offline_posts set title='$posttitle',source='$source',category_id='$catid',description='$postdetails',active='$status',last_updated_by='$lastuptdby' where id='$postid'");
+            $query=mysqli_query($con,"update offline_posts set title='$title',source='$source',category_id='$category_id',description='$description',active='$status',last_updated_by='$lastuptdby' where id='$postid'");
             // $query=mysqli_query($con,"update tblposts_offline set PostTitle='$posttitle',CategoryId='$catid',PostDetails='$postdetails',PostUrl='$url',Is_Active='$status',lastUpdatedBy='$lastuptdby' where id='$postid'");
             
             if($query) {
@@ -86,7 +89,7 @@
 							<div class="col-xs-12">
 								<div class="page-title-box">
                                     <h4 class="page-title">Sunting Berita Offline</h4>
-                                    <ol class="breadcrumb p-0 m-0">
+                                    <!-- <ol class="breadcrumb p-0 m-0">
                                         <li>
                                             <a href="#">Admin</a>
                                         </li>
@@ -96,7 +99,7 @@
                                         <li class="active">
                                             Sunting Berita Offline
                                         </li>
-                                    </ol>
+                                    </ol> -->
                                     <div class="clearfix"></div>
                                 </div>
 							</div>
@@ -123,7 +126,7 @@
 
                         <?php
                             $postid=intval($_GET['pid']);
-                            $query=mysqli_query($con,"select offline_posts.id as postid,tblposts_offline.PostImage,offline_posts.title as title,offline_posts.description,tblcategory.CategoryName as category,tblcategory.id as catid from offline_posts left join tblcategory on tblcategory.id=offline_posts.category_id where offline_posts.id='$postid' and offline_posts.Is_Active=1 ");
+                            $query=mysqli_query($con,"select offline_posts.id as postid,offline_post_images.url,offline_posts.title as title,offline_posts.description,tblcategory.CategoryName as category,tblcategory.id as category_id from offline_posts left join tblcategory on tblcategory.id=offline_posts.category_id where offline_posts.id='$postid' and offline_posts.active=1 ");
                             // $query=mysqli_query($con,"select tblposts_offline.id as postid,tblposts_offline.PostImage,tblposts_offline.PostTitle as title,tblposts_offline.PostDetails,tblcategory.CategoryName as category,tblcategory.id as catid from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.id='$postid' and tblposts_offline.Is_Active=1 ");
                             while($row=mysqli_fetch_array($query))
                             {
@@ -132,7 +135,7 @@
                             <div class="col-md-10 col-md-offset-1">
                                 <div class="p-6">
                                     <div class="">
-                                        <form name="addpost" method="post">
+                                        <!-- <form name="addpost" method="post">
                                             <div class="form-group m-b-20">
                                                 <label for="exampleInputEmail1">Judul Berita</label>
                                                 <input type="text" class="form-control" id="posttitle" value="<?php echo htmlentities($row['title']);?>" name="posttitle" placeholder="Enter title" required>
@@ -167,6 +170,46 @@
                                                     <div class="card-box">
                                                         <h4 class="m-b-30 m-t-0 header-title"><b>Gambar Terkait</b></h4>
                                                         <img src="postimages/<?php echo htmlentities($row['PostImage']);?>" width="300"/>
+                                                        <br />
+                                                        <a href="change-image.php?pid=<?php echo htmlentities($row['postid']);?>">Perbarui Gambar</a>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <form name="addpost" method="post" enctype="multipart/form-data">
+                                            <div class="form-group m-b-20">
+                                                <label for="exampleInputEmail1">Judul Berita</label>
+                                                <input type="text" class="form-control" id="title" name="title" placeholder="Masukkan Judul Berita" required>
+                                            </div>
+                                            <div class="form-group m-b-20">
+                                                <label for="exampleInputEmail1">Sumber Berita</label>
+                                                <input type="text" class="form-control" id="source" name="source" placeholder="Masukkan Sumber Berita" required>
+                                            </div>
+                                            <div class="form-group m-b-20">
+                                                <label for="exampleInputEmail1">Kategori</label>
+                                                <select class="form-control" name="category_id" id="category_id" onChange="getSubCat(this.value);" required>
+                                                    <option value="">Pilih Kategori</option>
+                                                    <?php
+                                                    // Feching active categories
+                                                    $ret = mysqli_query($con, "select id,CategoryName from  tblcategory where Is_Active=1");
+                                                    while ($result = mysqli_fetch_array($ret)) {
+                                                    ?>
+                                                        <option value="<?php echo htmlentities($result['id']); ?>"><?php echo htmlentities($result['CategoryName']); ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="card-box">
+                                                        <h4 class="m-b-30 m-t-0 header-title"><b>Deskripsi Berita</b></h4>
+                                                        <textarea class="summernote" name="description" required></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="card-box">
+                                                        <h4 class="m-b-30 m-t-0 header-title"><b>Gambar Terkait</b></h4>
+                                                        <img src="postimages/<?php echo htmlentities($row['url']);?>" width="300"/>
                                                         <br />
                                                         <a href="change-image.php?pid=<?php echo htmlentities($row['postid']);?>">Perbarui Gambar</a>
                                                     </div>
