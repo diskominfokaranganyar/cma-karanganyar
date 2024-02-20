@@ -9,7 +9,7 @@
             $category=$_POST['category'];
             $description=$_POST['description'];
             $status=1;
-            $query=mysqli_query($con,"insert into tblcategory(CategoryName,Description,Is_Active) values('$category','$description','$status')");
+            $query=mysqli_query($con,"insert into categories(name,description,active) values('$category','$description','$status')");
             
             if($query) {
                 $msg="Category created ";

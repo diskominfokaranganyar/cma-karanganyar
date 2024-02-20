@@ -10,14 +10,14 @@
     if($_GET['action']=='del' && $_GET['rid'])
     {
         $id=intval($_GET['rid']);
-        $query=mysqli_query($con,"update tblcategory set Is_Active='0' where id='$id'");
+        $query=mysqli_query($con,"update categories set active='0' where id='$id'");
         $msg="Category deleted ";
     }
     // Code for restore
     if($_GET['resid'])
     {
         $id=intval($_GET['resid']);
-        $query=mysqli_query($con,"update tblcategory set Is_Active='1' where id='$id'");
+        $query=mysqli_query($con,"update categories set active='1' where id='$id'");
         $msg="Category restored successfully";
     }
 
@@ -25,7 +25,7 @@
     if($_GET['action']=='parmdel' && $_GET['rid'])
     {
         $id=intval($_GET['rid']);
-        $query=mysqli_query($con,"delete from  tblcategory  where id='$id'");
+        $query=mysqli_query($con,"delete from  categories  where id='$id'");
         $delmsg="Category deleted forever";
     }
 
@@ -127,17 +127,17 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php 
-                                                        $query=mysqli_query($con,"Select id,CategoryName,Description,PostingDate,UpdationDate from  tblcategory where Is_Active=1");
+                                                        $query=mysqli_query($con,"Select id,name,description,posting_date,updated_date from  categories where active=1");
                                                         $cnt=1;
                                                         while($row=mysqli_fetch_array($query))
                                                         {
                                                     ?>
                                                     <tr>
                                                         <th scope="row"><?php echo htmlentities($cnt);?></th>
-                                                        <td><?php echo htmlentities($row['CategoryName']);?></td>
-                                                        <td><?php echo htmlentities($row['Description']);?></td>
-                                                        <td><?php echo htmlentities($row['PostingDate']);?></td>
-                                                        <td><?php echo htmlentities($row['UpdationDate']);?></td>
+                                                        <td><?php echo htmlentities($row['name']);?></td>
+                                                        <td><?php echo htmlentities($row['description']);?></td>
+                                                        <td><?php echo htmlentities($row['posting_date']);?></td>
+                                                        <td><?php echo htmlentities($row['updated_date']);?></td>
                                                         <td><a href="edit-category.php?cid=<?php echo htmlentities($row['id']);?>"><i class="fa fa-pencil" style="color: #29b6f6;"></i></a> 
                                                         &nbsp;<a href="manage-categories.php?rid=<?php echo htmlentities($row['id']);?>&&action=del"> <i class="fa fa-trash-o" style="color: #f05050"></i></a> </td>
                                                     </tr>
@@ -173,17 +173,17 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php 
-                                                        $query=mysqli_query($con,"Select id,CategoryName,Description,PostingDate,UpdationDate from  tblcategory where Is_Active=0");
+                                                        $query=mysqli_query($con,"Select id,name,description,posting_date,updated_date from  categories where active=0");
                                                         $cnt=1;
                                                         while($row=mysqli_fetch_array($query))
                                                         {
                                                     ?>
                                                     <tr>
                                                         <th scope="row"><?php echo htmlentities($cnt);?></th>
-                                                        <td><?php echo htmlentities($row['CategoryName']);?></td>
-                                                        <td><?php echo htmlentities($row['Description']);?></td>
-                                                        <td><?php echo htmlentities($row['PostingDate']);?></td>
-                                                        <td><?php echo htmlentities($row['UpdationDate']);?></td>
+                                                        <td><?php echo htmlentities($row['name']);?></td>
+                                                        <td><?php echo htmlentities($row['description']);?></td>
+                                                        <td><?php echo htmlentities($row['posting_date']);?></td>
+                                                        <td><?php echo htmlentities($row['updated_date']);?></td>
                                                         <td><a href="manage-categories.php?resid=<?php echo htmlentities($row['id']);?>"><i class="ion-arrow-return-right" title="Restore this category"></i></a> 
                                                         &nbsp;<a href="manage-categories.php?rid=<?php echo htmlentities($row['id']);?>&&action=parmdel" title="Delete forever"> <i class="fa fa-trash-o" style="color: #f05050"></i> </td>
                                                     </tr>

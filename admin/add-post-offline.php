@@ -204,14 +204,14 @@ if (strlen($_SESSION['login']) == 0) {
                                 <!---Success Message--->
                                 <?php if ($msg) { ?>
                                     <div class="alert alert-success" role="alert">
-                                        <strong>Well done!</strong> <?php echo htmlentities($msg); ?>
+                                        <strong><?php echo htmlentities($msg); ?></strong> 
                                     </div>
                                 <?php } ?>
 
                                 <!---Error Message--->
                                 <?php if ($error) { ?>
                                     <div class="alert alert-danger" role="alert">
-                                        <strong>Oh snap!</strong> <?php echo htmlentities($error); ?>
+                                        <strong><?php echo htmlentities($error); ?></strong> 
                                     </div>
                                 <?php } ?>
                             </div>
@@ -236,10 +236,10 @@ if (strlen($_SESSION['login']) == 0) {
                                                     <option value="">Pilih Kategori</option>
                                                     <?php
                                                     // Feching active categories
-                                                    $ret = mysqli_query($con, "select id,CategoryName from  tblcategory where Is_Active=1");
+                                                    $ret = mysqli_query($con, "select id,name from  categories where active=1");
                                                     while ($result = mysqli_fetch_array($ret)) {
                                                     ?>
-                                                        <option value="<?php echo htmlentities($result['id']); ?>"><?php echo htmlentities($result['CategoryName']); ?></option>
+                                                        <option value="<?php echo htmlentities($result['id']); ?>"><?php echo htmlentities($result['name']); ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>

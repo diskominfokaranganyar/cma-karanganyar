@@ -120,7 +120,8 @@ if (strlen($_SESSION['login']) == 0) {
             $category_id = $_SESSION['category_id'];
             $title = $_POST['title'];
             $descriptions = implode("\n", $_POST['paragraphs']);
-            $sql = "INSERT INTO online_posts (category_id, analyze_id, link, title, description) VALUES ('$category_id', '$analyze_id','$link', '$title', '$descriptions')";
+            $status=1;
+            $sql = "INSERT INTO online_posts (category_id, analyze_id, link, title, description, active) VALUES ('$category_id', '$analyze_id','$link', '$title', '$descriptions', '$status')";
 
             // Menjalankan query dan memeriksa apakah berhasil
             if ($con->query($sql) === TRUE) {
@@ -153,7 +154,7 @@ if (strlen($_SESSION['login']) == 0) {
 
                             // Increment serial number for the next file
                             $serialNumber++;
-                            echo "Data berhasil ditambahkan ke database";
+                            $msg = "Data berhasil ditambahkan ke database";
                         }
                     } else {
                         echo "Tidak ada gambar yang diunggah.";
@@ -242,6 +243,25 @@ if (strlen($_SESSION['login']) == 0) {
                     </div>
 
                     <div class="row">
+                            <div class="col-sm-6">
+                                <!---Success Message--->
+                                <?php if ($msg) { ?>
+                                    <div class="alert alert-success" role="alert">
+                                        <strong><?php echo htmlentities($msg); ?></strong> 
+                                    </div>
+                                <?php } ?>
+
+                                <!---Error Message--->
+                                <?php if ($error) { ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        <strong><?php echo htmlentities($error); ?></strong> 
+                                    </div>
+                                <?php } ?>
+                            </div>
+                    </div>
+
+
+                    <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="p-6">
                                 <?php if (!$showForm2) { ?>
@@ -260,10 +280,10 @@ if (strlen($_SESSION['login']) == 0) {
                                             <select class="form-control" name="category_id" id="category_id" onChange="getSubCat(this.value);" required>
                                                 <option value="">Pilih Kategori</option>
                                                 <?php
-                                                $ret = mysqli_query($con, "select id,CategoryName from  tblcategory where Is_Active=1");
+                                                $ret = mysqli_query($con, "select id,name from  categories where active=1");
                                                 while ($result = mysqli_fetch_array($ret)) {
                                                 ?>
-                                                    <option value="<?php echo htmlentities($result['id']); ?>"><?php echo htmlentities($result['CategoryName']); ?></option>
+                                                    <option value="<?php echo htmlentities($result['id']); ?>"><?php echo htmlentities($result['name']); ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>

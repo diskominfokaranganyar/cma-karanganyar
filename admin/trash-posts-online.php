@@ -4,16 +4,22 @@
     error_reporting(0);
     if(strlen($_SESSION['login'])==0) { 
         header('location:index.php');
-    } else{
-        if($_GET['action']='del') {
+    } else {
+        if($_GET['action']='restore') {
             $postid=intval($_GET['pid']);
-            $query=mysqli_query($con,"update offline_posts set active=0 where id='$postid'");         
-            // $query=mysqli_query($con,"update tblposts_offline set Is_Active=0 where id='$postid'");
+            $query=mysqli_query($con,"update online_posts set active=1 where id='$postid'");
+            // $query=mysqli_query($con,"update tblposts_offline set Is_Active=1 where id='$postid'");
             if($query) {
-                $msg="Post deleted ";
+                $msg="Data berhasil dipulihkan! ";
             } else {
-                $error="Something went wrong . Please try again.";    
+                $error="Ada yang salah, coba lagi !";    
             } 
+        }
+        // Code for Forever deletionparmdel
+        if($_GET['presid']) {
+            $id=intval($_GET['presid']);
+            $query=mysqli_query($con,"delete from  online_posts  where id='$id'");
+            $delmsg="Data berhasil dihapus permanen!";
         }
 ?>
 
@@ -65,10 +71,10 @@
         <div id="wrapper">
 
             <!-- Top Bar Start -->
-           <?php include('includes/topheader.php');?>
+            <?php include('includes/topheader.php');?>
 
             <!-- ========== Left Sidebar Start ========== -->
-           <?php include('includes/leftsidebar.php');?>
+            <?php include('includes/leftsidebar.php');?>
 
 
             <!-- ============================================================== -->
@@ -81,7 +87,7 @@
                         <div class="row">
 							<div class="col-xs-12">
 								<div class="page-title-box">
-                                    <h4 class="page-title">Kelola Berita Offline</h4>
+                                    <h4 class="page-title">Berita Online Terhapus </h4>
                                     <!-- <ol class="breadcrumb p-0 m-0">
                                         <li>
                                             <a href="#">Admin</a>
@@ -90,7 +96,7 @@
                                             <a href="#">Berita Offline</a>
                                         </li>
                                         <li class="active">
-                                            Kelola Berita Offline
+                                            Berita Offline Terhapus
                                         </li>
                                     </ol> -->
                                     <div class="clearfix"></div>
@@ -98,62 +104,67 @@
 							</div>
 						</div>
                         <!-- end row -->
-
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="card-box">
-                                    <div class="table-responsive">
-                                        <table class="table table-colored table-centered table-inverse m-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Judul</th>
-                                                    <th>Kategori</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                    $query=mysqli_query($con,"select offline_posts.id as postid, offline_posts.title as title, categories.name as category from offline_posts left join categories on categories.id=offline_posts.category_id where offline_posts.active=1 ");
-                                                    // $query=mysqli_query($con,"select tblposts_offline.id as postid,tblposts_offline.PostTitle as title,tblcategory.CategoryName as category from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.Is_Active=1 ");
-                                                    $rowcount=mysqli_num_rows($query);
-                                                    if($rowcount==0)
-                                                    {
-                                                ?>
-                                                <tr>
-                                                    <td colspan="4" align="center"><h3 style="color:red">Tidak Ada Berita</h3></td>
+                        
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-box">
+                                        <div class="table-responsive">
+                                            <table class="table table-colored table-centered table-inverse m-0">
+                                                <thead>
                                                     <tr>
-                                                        <?php 
-                                                            } else {
+                                                        <th>Judul Berita</th>
+                                                        <th>Kategori</th>
+                                                        <th>Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                        $query=mysqli_query($con,"select online_posts.id as postid,online_posts.title as title,categories.name as category from online_posts left join categories on categories.id=online_posts.category_id where online_posts.active=0");                                                   
+                                                        // $query=mysqli_query($con,"select tblposts_offline.id as postid,tblposts_offline.PostTitle as title,tblcategory.CategoryName as category from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.Is_Active=0");
+                                                        $rowcount=mysqli_num_rows($query);
+                                                        if($rowcount==0)
+                                                        {
+                                                    ?>
+                                                    <tr>
+                                                        <td colspan="4" align="center"><h3 style="color:red">Tidak Ada Berita</h3></td>
+                                                        <tr>
+                                                            <?php 
+                                                                } else {
                                                                 while($row=mysqli_fetch_array($query))
                                                                 {
-                                                        ?>
-                                                        <tr>
-                                                            <td><b><?php echo htmlentities($row['title']);?></b></td>
-                                                            <td><?php echo htmlentities($row['category'])?></td>
-                                                            <td><a href="edit-post-offline.php?pid=<?php echo htmlentities($row['postid']);?>"><i class="fa fa-pencil" style="color: #29b6f6;"></i></a> 
-                                                            &nbsp;<a href="manage-posts-offline.php?pid=<?php echo htmlentities($row['postid']);?>&&action=del" onclick="return confirm('Apakah anda ingin menghapusnya ?')"> <i class="fa fa-trash-o" style="color: #f05050"></i></a> </td>
-                                                        </tr>
-                                                        <?php } }?>
-                                                    </tr>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                                            ?>
+                                                            <tr>
+                                                                <td><b><?php echo htmlentities($row['title']);?></b></td>
+                                                                <td><?php echo htmlentities($row['category'])?></td>
+                                                                <td>
+                                                                    <a href="trash-posts-online.php?pid=<?php echo htmlentities($row['postid']);?>&&action=restore" onclick="return confirm('Apakah anda ingin memulihkannya ?')"> <i class="ion-arrow-return-right" title="Restore this Post"></i></a>
+                                                                    &nbsp;
+                                                                    <a href="trash-posts-online.php?presid=<?php echo htmlentities($row['postid']);?>&&action=perdel" onclick="return confirm('Apakah anda ingin menghapus permanen ?')"><i class="fa fa-trash-o" style="color: #f05050" title="Permanently delete this post"></i></a> 
+                                                                </td>
+                                                            </tr>
+                                                            <?php } }?>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div> <!-- container -->
+
                 </div> <!-- content -->
+
                 <?php include('includes/footer.php');?>
+
             </div>
 
             <!-- ============================================================== -->
             <!-- End Right content here -->
             <!-- ============================================================== -->
 
+
         </div>
         <!-- END wrapper -->
-
 
 
         <script>

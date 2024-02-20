@@ -7,7 +7,7 @@
     } else{
         if($_GET['action']='del') {
             $postid=intval($_GET['pid']);
-            $query=mysqli_query($con,"update offline_posts set active=0 where id='$postid'");         
+            $query=mysqli_query($con,"update online_posts set active=0 where id='$postid'");         
             // $query=mysqli_query($con,"update tblposts_offline set Is_Active=0 where id='$postid'");
             if($query) {
                 $msg="Post deleted ";
@@ -81,7 +81,7 @@
                         <div class="row">
 							<div class="col-xs-12">
 								<div class="page-title-box">
-                                    <h4 class="page-title">Kelola Berita Offline</h4>
+                                    <h4 class="page-title">Kelola Berita Online</h4>
                                     <!-- <ol class="breadcrumb p-0 m-0">
                                         <li>
                                             <a href="#">Admin</a>
@@ -113,7 +113,7 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $query=mysqli_query($con,"select offline_posts.id as postid, offline_posts.title as title, categories.name as category from offline_posts left join categories on categories.id=offline_posts.category_id where offline_posts.active=1 ");
+                                                    $query=mysqli_query($con,"select online_posts.id as postid, online_posts.title as title, categories.name as category from online_posts left join categories on categories.id=online_posts.category_id where online_posts.active=1 ");
                                                     // $query=mysqli_query($con,"select tblposts_offline.id as postid,tblposts_offline.PostTitle as title,tblcategory.CategoryName as category from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.Is_Active=1 ");
                                                     $rowcount=mysqli_num_rows($query);
                                                     if($rowcount==0)
@@ -130,8 +130,7 @@
                                                         <tr>
                                                             <td><b><?php echo htmlentities($row['title']);?></b></td>
                                                             <td><?php echo htmlentities($row['category'])?></td>
-                                                            <td><a href="edit-post-offline.php?pid=<?php echo htmlentities($row['postid']);?>"><i class="fa fa-pencil" style="color: #29b6f6;"></i></a> 
-                                                            &nbsp;<a href="manage-posts-offline.php?pid=<?php echo htmlentities($row['postid']);?>&&action=del" onclick="return confirm('Apakah anda ingin menghapusnya ?')"> <i class="fa fa-trash-o" style="color: #f05050"></i></a> </td>
+                                                            <td><center><a href="manage-posts-online.php?pid=<?php echo htmlentities($row['postid']);?>&&action=del" onclick="return confirm('Apakah anda ingin menghapusnya ?')"> <i class="fa fa-trash-o" style="color: #f05050"></i></center></a> </td>
                                                         </tr>
                                                         <?php } }?>
                                                     </tr>
