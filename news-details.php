@@ -2,13 +2,13 @@
   session_start();
   include('includes/config.php');
   
-  $postid=intval($_GET['nid']);
-  $sql = "SELECT view_counter FROM offline_posts ORDER BY offline_posts.id";
+  $postid=intval($_GET['id_offline_posts']);
+  $sql = "SELECT view_counter FROM offline_posts  WHERE id = '$postid'";
   $result = $con->query($sql);
   if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
       $visits = $row["view_counter"];
-      $sql = "UPDATE offline_posts SET view_counter = $visits+1 ORDER BY offline_posts.id";
+      $sql = "UPDATE offline_posts SET view_counter = $visits+1  WHERE id = '$postid'";
       $con->query($sql);
     }
   } else {
@@ -47,12 +47,12 @@
         <div class="col-md-8">
           <!-- Blog Post -->
           <?php
-            $pid=intval($_GET['nid']);
+            $pid=intval($_GET['id_offline_posts']);
             $currenturl="http://".$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];;
             
             // Your SQL query to fetch data from the tables
             $query = "
-            SELECT offline_posts.*, offline_post_images.*, offline_post_analyze.*, tblcategory.CategoryName AS category_name FROM offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id LEFT JOIN tblcategory ON offline_posts.category_id = tblcategory.id ORDER BY offline_posts.id DESC;
+            SELECT offline_posts.*, offline_post_images.*, offline_post_analyze.*, categories.id AS cid, categories.name AS category_name FROM offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id LEFT JOIN categories ON offline_posts.category_id = categories.id where offline_posts.id='$pid';
             "; // Adjust the JOIN condition based on your table structure
 
             // $result = $mysqli->query($sql);
@@ -65,7 +65,7 @@
             <div class="card-body">
               <h2 class="card-title"><?php echo htmlentities($row['title']);?></h2>
               <!--category-->
-              <a class="badge bg-secondary text-decoration-none link-light" href="category.php?catid=<?php echo $row['id']; ?>" style="color:#fff"><?php echo htmlentities($row['category_name']);?></a>
+              <a class="badge bg-secondary text-decoration-none link-light" href="category.php?catid=<?php echo $row['cid']; ?>" style="color:#fff"><?php echo htmlentities($row['category_name']);?></a>
               <p>
                 <b>Posted by </b> <?php echo htmlentities($row['posted_by']);?> on </b><?php echo htmlentities($row['posting_date']);?> |
                 <?php if($row['last_updated_by']!=''):?>

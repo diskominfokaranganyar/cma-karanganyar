@@ -25,13 +25,13 @@
         <div class="col-lg-6">
           <ul class="list-unstyled mb-0">
             <?php 
-              $query=mysqli_query($con,"select id,CategoryName from tblcategory");
+              $query=mysqli_query($con,"select categories.id as catid,name from categories");
               while($row=mysqli_fetch_array($query))
               {
             ?>
 
             <li  class="mb-2">
-              <a href="category.php?catid=<?php echo htmlentities($row['id'])?>" class="text-dark"><?php echo htmlentities($row['CategoryName']);?></a>
+              <a href="category.php?catid=<?php echo htmlentities($row['catid'])?>" class="text-dark"><?php echo htmlentities($row['name']);?></a>
             </li>
             <?php } ?>
           </ul>
@@ -48,7 +48,7 @@
         <?php
           // Your SQL query to fetch data from the tables
           $sql = "
-          SELECT offline_posts.*, offline_post_images.*, offline_post_analyze.*, tblcategory.CategoryName AS category_name FROM offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id LEFT JOIN tblcategory ON offline_posts.category_id = tblcategory.id ORDER BY offline_posts.id DESC limit 8;
+          select offline_posts.id as id_offline_posts,offline_posts.title as title from offline_posts left join categories on categories.id=offline_posts.category_id ORDER BY offline_posts.id DESC limit 8;
           "; // Adjust the JOIN condition based on your table structure
 
           // $result = $mysqli->query($sql);
@@ -58,8 +58,7 @@
         ?>
         
           <li class="d-flex mb-2 align-items-center">
-            <img class="mr-2 rounded-circle" src="/cma-karanganyar/admin/<?php echo $row['url'] ?>" width="50px" height="50px">
-            <a href="news-details.php?nid=<?php echo htmlentities($row['id'])?>" class="text-dark"><?php echo htmlentities($row['title']);?></a>
+            <a href="news-details.php?id_offline_posts=<?php echo htmlentities($row['id_offline_posts'])?>" class="text-dark"><?php echo htmlentities($row['title']);?></a>
           </li>
         <?php }
         } ?>
@@ -74,14 +73,14 @@
       <ul class="list-unstyled">
         <?php
           // Your SQL query to fetch data from the tables
-          $query1 = mysqli_query($con, "select offline_posts.id as id,offline_posts.title as title from offline_posts left join tblcategory on tblcategory.id=offline_posts.category_id order by view_counter desc limit 5"); // Adjust the JOIN condition based on your table structure
+          $query1 = mysqli_query($con, "select offline_posts.id as id_offline_posts,offline_posts.title as title from offline_posts left join categories on categories.id=offline_posts.category_id order by view_counter desc limit 5"); // Adjust the JOIN condition based on your table structure
 
           while ($result=mysqli_fetch_array($query1)) 
           {
         ?>
         
           <li class="mb-2">
-            <a href="news-details.php?nid=<?php echo htmlentities($result['id'])?>" class="text-dark"><?php echo htmlentities($result['title']);?></a>
+            <a href="news-details.php?id_offline_posts=<?php echo htmlentities($result['id_offline_posts'])?>" class="text-dark"><?php echo htmlentities($result['title']);?></a>
           </li>
         <?php } ?>
       </ul>
