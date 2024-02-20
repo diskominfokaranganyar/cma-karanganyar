@@ -1,11 +1,9 @@
 <?php
-
 session_start();
+error_reporting(0);
+include('includes/config.php');
 include '../analisis/lib/PHPInsight/dictionaries/source.positif.php';
 include '../analisis/lib/PHPInsight/dictionaries/source.negatif.php';
-
-include('includes/config.php');
-error_reporting(0);
 
 if (strlen($_SESSION['login']) == 0) {
     header('location:index.php');
@@ -65,11 +63,6 @@ if (strlen($_SESSION['login']) == 0) {
         $countPositiveWord = count($dataPositiveWord);
         $countNegativeWord = count($dataNegativeWord);
         
-        // Output hasil
-        // echo "Kata-kata positif sebanyak $countPositiveWord yang ditemukan: " . implode(', ', $dataPositiveWord) . "<br>";
-        // echo "Kata-kata negatif sebanyak $countNegativeWord yang ditemukan: " . implode(', ', $dataNegativeWord) . "<br>";
-        
-
         // Menentukan total
         $total = round(($countPositiveWord/($countPositiveWord+$countNegativeWord))*5);
 
@@ -138,7 +131,7 @@ if (strlen($_SESSION['login']) == 0) {
 
                             // Increment serial number for the next file
                             $serialNumber++;
-                            $msg = "Data berhasil diinsert. Kata-kata positif sebanyak $countPositiveWord yang ditemukan: " . implode(', ', $dataPositiveWord) . "<br> Kata-kata negatif sebanyak $countNegativeWord yang ditemukan: " . implode(', ', $dataNegativeWord) . "<br>";
+                            $msg = "Data berhasil ditambahkan ke database";
                         }
                     } else {
                         $gagal = "Tidak ada gambar yang diunggah.";
@@ -164,17 +157,13 @@ if (strlen($_SESSION['login']) == 0) {
         <!-- App title -->
         <title>Tambah Berita Offline</title>
         <link rel="icon" type="image/x-icon" href="../asset/Logo.png">
-
         <!-- Summernote css -->
         <link href="../plugins/summernote/summernote.css" rel="stylesheet" />
-
         <!-- Select2 -->
         <link href="../plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
-
         <!-- Jquery filer css -->
         <link href="../plugins/jquery.filer/css/jquery.filer.css" rel="stylesheet" />
         <link href="../plugins/jquery.filer/css/themes/jquery.filer-dragdropbox-theme.css" rel="stylesheet" />
-
         <!-- App css -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/core.css" rel="stylesheet" type="text/css" />
@@ -206,22 +195,9 @@ if (strlen($_SESSION['login']) == 0) {
                             <div class="col-xs-12">
                                 <div class="page-title-box">
                                     <h4 class="page-title">Tambah Berita Offline </h4>
-                                    <!-- <ol class="breadcrumb p-0 m-0">
-                                        <li>
-                                            <a href="#">Admin</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Berita Offline</a>
-                                        </li>
-                                        <li class="active">
-                                            Tambah Berita Offline
-                                        </li>
-                                    </ol> -->
-                                    <div class="clearfix"></div>
                                 </div>
                             </div>
                         </div>
-                        <!-- end row -->
 
                         <div class="row">
                             <div class="col-sm-6">
@@ -275,14 +251,6 @@ if (strlen($_SESSION['login']) == 0) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="card-box">
-                                                        <h4 class="m-b-30 m-t-0 header-title"><b>Gambar Terkait</b></h4>
-                                                        <input type="file" class="form-control" id="images" name="images" required>
-                                                    </div>
-                                                </div>
-                                            </div> -->
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="card-box">
