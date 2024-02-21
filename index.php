@@ -95,7 +95,7 @@ include('includes/config.php');
                                                 <?php echo $row['total']; ?>
                                             </span>
 
-                                            <img class="card-img-top" src="/cma-karanganyar/admin/<?php echo $row['url'] ?>" height="200px">
+                                            <img class="card-img-top" src="admin/<?php echo $row['url'] ?>" height="200px">
                                         </div>
                                         <div class="col-md-7">
                                             <div class="card-body">
@@ -177,7 +177,7 @@ include('includes/config.php');
                                                 <?php echo $row['total']; ?>
                                             </span>
 
-                                            <img class="card-img-top" src="/cma-karanganyar/admin/<?php echo $row['url'] ?>" height="200px">
+                                            <img class="card-img-top" src="admin/<?php echo $row['url'] ?>" height="200px">
                                         </div>
                                         <div class="col-md-7">
                                             <div class="card-body">

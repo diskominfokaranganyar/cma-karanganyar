@@ -40,7 +40,7 @@
 			<div class="row justify-content-sm-center h-100">
 				<div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
 					<div class="text-center">
-                        <img src="../asset/logo-dark.png" alt="logo" width="380">
+                        <img src="../asset/Logo-dark.png" alt="logo" width="380">
 					</div>
 					<div class="card shadow-lg">
 						<div class="card-body p-5">
