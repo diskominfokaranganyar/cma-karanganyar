@@ -47,11 +47,6 @@ include('includes/config.php');
           $st = $_SESSION['searchtitle'] = $_POST['searchtitle'];
         }
         $st;
-
-
-
-
-
         if (isset($_GET['pageno'])) {
           $pageno = $_GET['pageno'];
         } else {
@@ -67,31 +62,31 @@ include('includes/config.php');
         $total_pages = ceil($total_rows / $no_of_records_per_page);
 
         $query = mysqli_query($con, "
-       SELECT 
-    offline_posts.id AS pid,
-    offline_posts.title AS posttitle,
-    tblcategory.CategoryName AS category,
-    offline_posts.description AS postdetails,
-    offline_posts.posting_date AS postingdate,
-    offline_post_images.url AS postimage
-FROM 
-    offline_posts
-LEFT JOIN 
-    tblcategory ON tblcategory.id = offline_posts.category_id
-LEFT JOIN 
-    (
-        SELECT post_id, MIN(serial_number) AS min_serial_number
-        FROM offline_post_images
-        GROUP BY post_id
-    ) AS min_images ON offline_posts.id = min_images.post_id
-LEFT JOIN 
-    offline_post_images ON offline_post_images.post_id = min_images.post_id AND offline_post_images.serial_number = min_images.min_serial_number
-WHERE 
-    offline_posts.title LIKE '%$st%' AND offline_posts.active = 1
-ORDER BY 
-    offline_posts.id DESC
-LIMIT 
-    $offset, $no_of_records_per_page;
+          SELECT 
+              offline_posts.id AS id_offline_posts,
+              offline_posts.title AS posttitle,
+              tblcategory.CategoryName AS category,
+              offline_posts.description AS postdetails,
+              offline_posts.posting_date AS postingdate,
+              offline_post_images.url AS postimage
+          FROM 
+              offline_posts
+          LEFT JOIN 
+              tblcategory ON tblcategory.id = offline_posts.category_id
+          LEFT JOIN 
+              (
+                  SELECT post_id, MIN(serial_number) AS min_serial_number
+                  FROM offline_post_images
+                  GROUP BY post_id
+              ) AS min_images ON offline_posts.id = min_images.post_id
+          LEFT JOIN 
+              offline_post_images ON offline_post_images.post_id = min_images.post_id AND offline_post_images.serial_number = min_images.min_serial_number
+          WHERE 
+              offline_posts.title LIKE '%$st%' AND offline_posts.active = 1
+          ORDER BY 
+              offline_posts.id DESC
+          LIMIT 
+              $offset, $no_of_records_per_page;
 
     ");
 
@@ -110,7 +105,7 @@ LIMIT
               <div class="card-body">
                 <h2 class="card-title"><?php echo htmlentities($row['posttitle']); ?></h2>
 
-                <a href="news-details.php?nid=<?php echo htmlentities($row['pid']) ?>" class="btn btn-primary">Read More &rarr;</a>
+                <a href="news-details.php?id_offline_posts=<?php echo htmlentities($row['id_offline_posts']) ?>" class="btn btn-primary">Read More &rarr;</a>
               </div>
               <div class="card-footer text-muted">
                 Posted on <?php echo htmlentities($row['postingdate']); ?>

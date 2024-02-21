@@ -114,11 +114,6 @@ include('includes/config.php');
                                                     </h4>
                                                 </a>
                                                 </p>
-                                                <p class="m-0">
-                                                <h6 class="card-title">
-                                                    <?php echo $row['description'] ?>
-                                                </h6>
-                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -126,30 +121,6 @@ include('includes/config.php');
                             </div>
                     <?php }
                     } ?>
-
-                    <!-- Pagination -->
-                    <ul class="pagination justify-content-center mb-4">
-                        <li class="page-item"><a href="?pageno=1" class="page-link">First</a></li>
-                        <li class="<?php if ($pageno <= 1) {
-                                        echo 'disabled';
-                                    } ?> page-item">
-                            <a href="<?php if ($pageno <= 1) {
-                                            echo '#';
-                                        } else {
-                                            echo "?pageno=" . ($pageno - 1);
-                                        } ?>" class="page-link">Prev</a>
-                        </li>
-                        <li class="<?php if ($pageno >= $total_pages) {
-                                        echo 'disabled';
-                                    } ?> page-item">
-                            <a href="<?php if ($pageno >= $total_pages) {
-                                            echo '#';
-                                        } else {
-                                            echo "?pageno=" . ($pageno + 1);
-                                        } ?> " class="page-link">Next</a>
-                        </li>
-                        <li class="page-item"><a href="?pageno=<?php echo $total_pages; ?>" class="page-link">Last</a></li>
-                    </ul>
                 </div>
 
                 <!-- Blog Post -->
@@ -205,10 +176,11 @@ include('includes/config.php');
                                             <span class="rating-label" style="padding: 5px 10px; background-color: <?php echo getColorBasedOnRating($row['total']); ?>">
                                                 <?php echo $row['total']; ?>
                                             </span>
+
                                             <img class="card-img-top" src="/cma-karanganyar/admin/<?php echo $row['url'] ?>" height="200px">
                                         </div>
                                         <div class="col-md-7">
-                                            <div class="card-body row">
+                                            <div class="card-body">
                                                 <p class="m-0">
                                                     <a class="badge bg-success text-decoration-none link-light" href="">
                                                         <?php echo $row['category_name']; ?>
@@ -218,16 +190,11 @@ include('includes/config.php');
                                                     </a> -->
                                                 </p>
                                                 <p class="mb-2"><small> Posted on <?php echo $row['posting_date'] ?></small></p>
-                                                    <a href="news-details.php?id_offline_posts=<?php echo htmlentities($row['id_offline_posts'])?>" class="card-title text-decoration-none text-dark">
-                                                        <h4 class="card-title">
-                                                            <?php echo $row['title'] ?>
-                                                        </h4>
-                                                    </a>
-                                                </p>
-                                                <p class="m-0">
-                                                <h6 class="card-title">
-                                                    <?php echo $row['description'] ?>
-                                                </h6>
+                                                <a href="news-details.php?id_offline_posts=<?php echo $row['id_offline_posts'] ?>" class="card-title text-decoration-none text-dark">
+                                                    <h4 class="card-title">
+                                                        <?php echo $row['title'] ?>
+                                                    </h4>
+                                                </a>
                                                 </p>
                                             </div>
                                         </div>
@@ -236,30 +203,6 @@ include('includes/config.php');
                             </div>
                     <?php }
                     } ?>
-
-                    <!-- Pagination -->
-                    <ul class="pagination justify-content-center mb-4">
-                        <li class="page-item"><a href="?pageno=1" class="page-link">First</a></li>
-                        <li class="<?php if ($pageno <= 1) {
-                                        echo 'disabled';
-                                    } ?> page-item">
-                            <a href="<?php if ($pageno <= 1) {
-                                            echo '#';
-                                        } else {
-                                            echo "?pageno=" . ($pageno - 1);
-                                        } ?>" class="page-link">Prev</a>
-                        </li>
-                        <li class="<?php if ($pageno >= $total_pages) {
-                                        echo 'disabled';
-                                    } ?> page-item">
-                            <a href="<?php if ($pageno >= $total_pages) {
-                                            echo '#';
-                                        } else {
-                                            echo "?pageno=" . ($pageno + 1);
-                                        } ?> " class="page-link">Next</a>
-                        </li>
-                        <li class="page-item"><a href="?pageno=<?php echo $total_pages; ?>" class="page-link">Last</a></li>
-                    </ul>
                 </div>
             </div>
             <!-- Sidebar Widgets Column -->
