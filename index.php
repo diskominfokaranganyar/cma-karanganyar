@@ -209,8 +209,8 @@ include('includes/config.php');
                                         </div>
                                         <div class="col-md-7">
                                             <div class="card-body row">
-                                                <p class="m-0 row justify-content-between">
-                                                    <a class="badge col-6 bg-success w-50 text-decoration-none link-light" href="">
+                                                <p class="m-0">
+                                                    <a class="badge bg-success text-decoration-none link-light" href="">
                                                         <?php echo $row['category_name']; ?>
                                                     </a>
                                                     <!--category-->
