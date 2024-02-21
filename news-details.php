@@ -78,7 +78,7 @@
                   <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=<?php echo $currenturl;?>" target="_blank">Linkedin</a>  <b>Visits:</b> <?php print $visits; ?>
                 </p>
                 <hr />
-                <img class="img-fluid rounded" src="/cma-karanganyar/admin/<?php echo $row['url'] ?>" alt="<?php echo htmlentities($row['title']);?>">
+                <img class="img-fluid rounded" src="admin/<?php echo $row['url'] ?>" alt="<?php echo htmlentities($row['title']);?>">
                 <p class="card-text">
                   <?php 
                     $pt=$row['description'];
