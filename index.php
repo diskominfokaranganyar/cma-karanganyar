@@ -45,6 +45,20 @@ include('includes/config.php');
                 <!-- Blog Post -->
                 <div class="row">
                     <?php
+                    /* if (isset($_GET['pageno'])) {
+                        $pageno = $_GET['pageno'];
+                    } else {
+                        $pageno = 1;
+                    }
+                    $no_of_records_per_page = 5;
+                    $offset = ($pageno-1) * $no_of_records_per_page;
+        
+                    $total_pages_sql = "SELECT COUNT(*) FROM online_posts";
+                    // $total_pages_sql = "SELECT COUNT(*) FROM tblposts";
+                    $result = mysqli_query($con,$total_pages_sql);
+                    $total_rows = mysqli_fetch_array($result)[0];
+                    $total_pages = ceil($total_rows / $no_of_records_per_page); */
+
                     function getColorBasedOnRatingOnline($rating)
                     {
                         if ($rating == 3) {
@@ -76,7 +90,7 @@ include('includes/config.php');
                     JOIN online_post_images ON online_posts.id = online_post_images.post_id AND min_images.min_serial_number = online_post_images.serial_number
                     JOIN online_post_analyze ON online_posts.analyze_id = online_post_analyze.id
                     LEFT JOIN categories ON online_posts.category_id = categories.id  -- menggunakan LEFT JOIN agar tidak kehilangan data jika tidak ada kategori yang cocok
-                    ORDER BY online_posts.id DESC;
+                    ORDER BY online_posts.id DESC limit 8 -- dilimit hanya 8 berita yang muncul di beranda berdasarkan input terakhir;
                     ";
 
                     // $result = $mysqli->query($sql);
@@ -121,12 +135,38 @@ include('includes/config.php');
                             </div>
                     <?php }
                     } ?>
+
+                    <!-- Pagination -->
+                    <!-- <ul class="pagination justify-content-center mb-4">
+                        <li class="page-item"><a href="?pageno=1"  class="page-link">First</a></li>
+                        <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?> page-item">
+                            <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>" class="page-link">Prev</a>
+                        </li>
+                        <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?> page-item">
+                            <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?> " class="page-link">Next</a>
+                        </li>
+                        <li class="page-item"><a href="?pageno=<?php echo $total_pages; ?>" class="page-link">Last</a></li>
+                    </ul> -->
                 </div>
 
                 <!-- Blog Post -->
                 <h4 class="header-offline p-2 m mb-4 w-100 bg-body-secondary">Offline</h4>
                 <div class="row">
                     <?php
+                    /* if (isset($_GET['pageno'])) {
+                        $pageno = $_GET['pageno'];
+                    } else {
+                        $pageno = 1;
+                    }
+                    $no_of_records_per_page = 5;
+                    $offset = ($pageno-1) * $no_of_records_per_page;
+        
+                    $total_pages_sql = "SELECT COUNT(*) FROM offline_posts";
+                    // $total_pages_sql = "SELECT COUNT(*) FROM tblposts";
+                    $result = mysqli_query($con,$total_pages_sql);
+                    $total_rows = mysqli_fetch_array($result)[0];
+                    $total_pages = ceil($total_rows / $no_of_records_per_page); */
+
                     function getColorBasedOnRating($rating)
                     {
                         if ($rating == 3) {
@@ -158,7 +198,7 @@ include('includes/config.php');
                     JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id AND min_images.min_serial_number = offline_post_images.serial_number
                     JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id
                     LEFT JOIN categories ON offline_posts.category_id = categories.id  -- menggunakan LEFT JOIN agar tidak kehilangan data jika tidak ada kategori yang cocok
-                    ORDER BY offline_posts.id DESC;
+                    ORDER BY offline_posts.id DESC limit 8 -- dilimit hanya 8 berita yang muncul di beranda berdasarkan input terakhir;
                         "; // Adjust the JOIN condition based on your table structure
 
                     // $result = $mysqli->query($sql);
@@ -203,6 +243,18 @@ include('includes/config.php');
                             </div>
                     <?php }
                     } ?>
+
+                    <!-- Pagination -->
+                    <!-- <ul class="pagination justify-content-center mb-4">
+                        <li class="page-item"><a href="?pageno=1"  class="page-link">First</a></li>
+                        <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?> page-item">
+                            <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>" class="page-link">Prev</a>
+                        </li>
+                        <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?> page-item">
+                            <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?> " class="page-link">Next</a>
+                        </li>
+                        <li class="page-item"><a href="?pageno=<?php echo $total_pages; ?>" class="page-link">Last</a></li>
+                    </ul> -->
                 </div>
             </div>
             <!-- Sidebar Widgets Column -->

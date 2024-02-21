@@ -1,15 +1,12 @@
 <?php 
-session_start();
-error_reporting(0);
-include('includes/config.php');
-
-    ?>
+  session_start();
+  error_reporting(0);
+  include('includes/config.php');
+?>
 
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -29,105 +26,118 @@ include('includes/config.php');
   <body>
 
     <!-- Navigation -->
-   <?php include('includes/header.php');?>
+    <?php include('includes/header.php');?>
 
     <!-- Page Content -->
-    <div class="container">
-
-
-     
+    <div class="container">     
       <div class="row" style="margin-top: 4%">
-
         <!-- Blog Entries Column -->
         <div class="col-md-8">
 
           <!-- Blog Post -->
-      <?php 
-        if($_GET['catid']!=''){
-          $_SESSION['catid']=intval($_GET['catid']);
-        }
-        if (isset($_GET['pageno'])) {
-            $pageno = $_GET['pageno'];
-        } else {
-            $pageno = 1;
-        }
-        $no_of_records_per_page = 8;
-        $offset = ($pageno-1) * $no_of_records_per_page;
+          <?php 
+            if($_GET['catid']!=''){
+              $_SESSION['catid']=intval($_GET['catid']);
+            }
+            if (isset($_GET['pageno'])) {
+                $pageno = $_GET['pageno'];
+            } else {
+                $pageno = 1;
+            }
+            $no_of_records_per_page = 5;
+            $offset = ($pageno-1) * $no_of_records_per_page;
 
-        $total_pages_sql = "SELECT COUNT(*) FROM offline_posts";
-        // $total_pages_sql = "SELECT COUNT(*) FROM tblposts";
-        $result = mysqli_query($con,$total_pages_sql);
-        $total_rows = mysqli_fetch_array($result)[0];
-        $total_pages = ceil($total_rows / $no_of_records_per_page);
+            $total_pages_sql = "SELECT COUNT(*) FROM offline_posts";
+            // $total_pages_sql = "SELECT COUNT(*) FROM tblposts";
+            $result = mysqli_query($con,$total_pages_sql);
+            $total_rows = mysqli_fetch_array($result)[0];
+            $total_pages = ceil($total_rows / $no_of_records_per_page);
 
-        $query=mysqli_query($con,"select offline_posts.id as pid,offline_posts.title as posttitle,tblcategory.CategoryName as category,offline_posts.description as description,offline_posts.posting_date as postingdate from offline_posts JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id left join tblcategory on tblcategory.id=offline_posts.category_id where offline_posts.category_id='".$_SESSION['catid']."' and offline_posts.active=1 order by offline_posts.id desc LIMIT $offset, $no_of_records_per_page");
-        // $query=mysqli_query($con,"select tblposts.id as pid,tblposts.PostTitle as posttitle,tblposts.PostImage,tblcategory.CategoryName as category,tblsubcategory.Subcategory as subcategory,tblposts.PostDetails as postdetails,tblposts.PostingDate as postingdate,tblposts.PostUrl as url from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join  tblsubcategory on  tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.CategoryId='".$_SESSION['catid']."' and tblposts.Is_Active=1 order by tblposts.id desc LIMIT $offset, $no_of_records_per_page");
+            $query=mysqli_query($con,"
+              SELECT 
+                    offline_posts.id AS id_offline_posts,
+                    offline_posts.title AS posttitle,
+                    tblcategory.CategoryName AS category,
+                    offline_posts.description AS postdetails,
+                    offline_posts.posting_date AS postingdate,
+                    offline_post_images.url AS postimage
+                FROM 
+                    offline_posts
+                LEFT JOIN 
+                    tblcategory ON tblcategory.id = offline_posts.category_id
+                LEFT JOIN 
+                    (
+                        SELECT post_id, MIN(serial_number) AS min_serial_number
+                        FROM offline_post_images
+                        GROUP BY post_id
+                    ) AS min_images ON offline_posts.id = min_images.post_id
+                LEFT JOIN 
+                    offline_post_images ON offline_post_images.post_id = min_images.post_id AND offline_post_images.serial_number = min_images.min_serial_number
+                WHERE 
+                    offline_posts.category_id='".$_SESSION['catid']."' and offline_posts.active=1
+                ORDER BY 
+                    offline_posts.id desc
+                LIMIT 
+                    $offset, $no_of_records_per_page;
+            ");
+                // $query=mysqli_query($con,"select tblposts.id as pid,tblposts.PostTitle as posttitle,tblposts.PostImage,tblcategory.CategoryName as category,tblsubcategory.Subcategory as subcategory,tblposts.PostDetails as postdetails,tblposts.PostingDate as postingdate,tblposts.PostUrl as url from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join  tblsubcategory on  tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.CategoryId='".$_SESSION['catid']."' and tblposts.Is_Active=1 order by tblposts.id desc LIMIT $offset, $no_of_records_per_page");
 
-$rowcount=mysqli_num_rows($query);
-if($rowcount==0)
-{
-echo "No record found";
-}
-else {
-while ($row=mysqli_fetch_array($query)) {
+            $rowcount=mysqli_num_rows($query);
+            if($rowcount==0)
+            {
+            echo "No record found";
+            }
+            else {
+            while ($row=mysqli_fetch_array($query)) {
+          ?>
+          
+            <h1><?php echo htmlentities($row['category']);?> News</h1>
+              <div class="card mb-4">
+              <img class="card-img-top" src="admin/<?php echo htmlentities($row['postimage']); ?>" height="350px" alt="<?php echo htmlentities($row['posttitle']); ?>">
+                <div class="card-body">
+                  <h2 class="card-title"><?php echo htmlentities($row['posttitle']);?></h2>
+              
+                  <a href="news-details.php?nid=<?php echo htmlentities($row['pid'])?>" class="btn btn-primary">Read More &rarr;</a>
+                </div>
+                <div class="card-footer text-muted">
+                  Posted on <?php echo htmlentities($row['postingdate']);?>
+              
+                </div>
+              </div>
+            <?php } ?>
 
-
-?>
-<h1><?php echo htmlentities($row['category']);?> News</h1>
-          <div class="card mb-4">
-       <img class="card-img-top" src="admin/postimages/<?php echo htmlentities($row['PostImage']);?>" alt="<?php echo htmlentities($row['posttitle']);?>">
-            <div class="card-body">
-              <h2 class="card-title"><?php echo htmlentities($row['posttitle']);?></h2>
-           
-              <a href="news-details.php?nid=<?php echo htmlentities($row['pid'])?>" class="btn btn-primary">Read More &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-              Posted on <?php echo htmlentities($row['postingdate']);?>
-           
-            </div>
-          </div>
-<?php } ?>
-
-    <ul class="pagination justify-content-center mb-4">
-        <li class="page-item"><a href="?pageno=1"  class="page-link">First</a></li>
-        <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?> page-item">
-            <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>" class="page-link">Prev</a>
-        </li>
-        <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?> page-item">
-            <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?> " class="page-link">Next</a>
-        </li>
-        <li class="page-item"><a href="?pageno=<?php echo $total_pages; ?>" class="page-link">Last</a></li>
-    </ul>
-<?php } ?>
+            <ul class="pagination justify-content-center mb-4">
+              <li class="page-item"><a href="?pageno=1"  class="page-link">First</a></li>
+              <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?> page-item">
+                  <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>" class="page-link">Prev</a>
+              </li>
+              <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?> page-item">
+                  <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?> " class="page-link">Next</a>
+              </li>
+              <li class="page-item"><a href="?pageno=<?php echo $total_pages; ?>" class="page-link">Last</a></li>
+            </ul>
+          <?php } ?>
        
 
-      
-
           <!-- Pagination -->
-
-
-
-
         </div>
 
         <!-- Sidebar Widgets Column -->
-      <?php include('includes/sidebar.php');?>
+        <?php include('includes/sidebar.php');?>
       </div>
       <!-- /.row -->
-
     </div>
     <!-- /.container -->
 
     <!-- Footer -->
-      <?php include('includes/footer.php');?>
+    <?php include('includes/footer.php');?>
 
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
- 
-</head>
+  </head>
   </body>
 
 </html>
