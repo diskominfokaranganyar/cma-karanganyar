@@ -126,7 +126,7 @@
 
                         <?php
                             $postid=intval($_GET['pid']);
-                            $query=mysqli_query($con,"select offline_posts.id as postid,offline_post_images.url,offline_posts.title as title,offline_posts.description,tblcategory.CategoryName as category,tblcategory.id as category_id from offline_posts left join tblcategory on tblcategory.id=offline_posts.category_id where offline_posts.id='$postid' and offline_posts.active=1 ");
+                            $query=mysqli_query($con,"select offline_posts.id as postid,offline_posts.title as title,offline_posts.source as source,offline_posts.description as description,categories.name as category,categories.id as category_id from offline_posts left join categories on categories.id=offline_posts.category_id where offline_posts.id='$postid' and offline_posts.active=1 ");
                             // $query=mysqli_query($con,"select tblposts_offline.id as postid,tblposts_offline.PostImage,tblposts_offline.PostTitle as title,tblposts_offline.PostDetails,tblcategory.CategoryName as category,tblcategory.id as catid from tblposts_offline left join tblcategory on tblcategory.id=tblposts_offline.CategoryId where tblposts_offline.id='$postid' and tblposts_offline.Is_Active=1 ");
                             while($row=mysqli_fetch_array($query))
                             {
@@ -135,23 +135,26 @@
                             <div class="col-md-10 col-md-offset-1">
                                 <div class="p-6">
                                     <div class="">
-                                        <!-- <form name="addpost" method="post">
+                                        <form name="addpost" method="post">
                                             <div class="form-group m-b-20">
                                                 <label for="exampleInputEmail1">Judul Berita</label>
-                                                <input type="text" class="form-control" id="posttitle" value="<?php echo htmlentities($row['title']);?>" name="posttitle" placeholder="Enter title" required>
+                                                <input type="text" class="form-control" id="title" value="<?php echo htmlentities($row['title']);?>" name="title" placeholder="Enter title" required>
                                             </div>
-
+                                            <div class="form-group m-b-20">
+                                                <label for="exampleInputEmail1">Sumber Berita</label>
+                                                <input type="text" class="form-control" id="source" value="<?php echo htmlentities($row['source']);?>" name="source" placeholder="Enter Source" required>
+                                            </div>
                                             <div class="form-group m-b-20">
                                                 <label for="exampleInputEmail1">Kategori</label>
                                                 <select class="form-control" name="category" id="category" onChange="getSubCat(this.value);" required>
-                                                    <option value="<?php echo htmlentities($row['catid']);?>"><?php echo htmlentities($row['category']);?></option>
+                                                    <option value="<?php echo htmlentities($row['category_id']);?>"><?php echo htmlentities($row['category']);?></option>
                                                     <?php
                                                         // Feching active categories
-                                                        $ret=mysqli_query($con,"select id,CategoryName from  tblcategory where Is_Active=1");
+                                                        $ret=mysqli_query($con,"select id,name from  categories where active=1");
                                                         while($result=mysqli_fetch_array($ret))
                                                         {    
                                                     ?>
-                                                    <option value="<?php echo htmlentities($result['id']);?>"><?php echo htmlentities($result['CategoryName']);?></option>
+                                                    <option value="<?php echo htmlentities($result['id']);?>"><?php echo htmlentities($result['name']);?></option>
                                                     <?php } ?>
                                                 </select> 
                                             </div>
@@ -160,12 +163,12 @@
                                                 <div class="col-sm-12">
                                                     <div class="card-box">
                                                         <h4 class="m-b-30 m-t-0 header-title"><b>Deskripsi Berita</b></h4>
-                                                        <textarea class="summernote" name="postdescription" required><?php echo htmlentities($row['PostDetails']);?></textarea>
+                                                        <textarea class="summernote" name="description" id='description' required><?php echo htmlentities($row['description']);?></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             
-                                            <div class="row">
+                                            <!-- <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="card-box">
                                                         <h4 class="m-b-30 m-t-0 header-title"><b>Gambar Terkait</b></h4>
@@ -175,7 +178,7 @@
                                                     </div>
                                                 </div>
                                             </div> -->
-                                            <form name="addpost" method="post" enctype="multipart/form-data">
+                                            <!-- <form name="addpost" method="post" enctype="multipart/form-data">
                                             <div class="form-group m-b-20">
                                                 <label for="exampleInputEmail1">Judul Berita</label>
                                                 <input type="text" class="form-control" id="title" name="title" placeholder="Masukkan Judul Berita" required>
@@ -190,10 +193,10 @@
                                                     <option value="">Pilih Kategori</option>
                                                     <?php
                                                     // Feching active categories
-                                                    $ret = mysqli_query($con, "select id,CategoryName from  tblcategory where Is_Active=1");
+                                                    $ret = mysqli_query($con, "select id,name from  categories where active=1");
                                                     while ($result = mysqli_fetch_array($ret)) {
                                                     ?>
-                                                        <option value="<?php echo htmlentities($result['id']); ?>"><?php echo htmlentities($result['CategoryName']); ?></option>
+                                                        <option value="<?php echo htmlentities($result['id']); ?>"><?php echo htmlentities($result['name']); ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -204,8 +207,8 @@
                                                         <textarea class="summernote" name="description" required></textarea>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
+                                            </div> -->
+                                            <!-- <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="card-box">
                                                         <h4 class="m-b-30 m-t-0 header-title"><b>Gambar Terkait</b></h4>
@@ -214,7 +217,7 @@
                                                         <a href="change-image.php?pid=<?php echo htmlentities($row['postid']);?>">Perbarui Gambar</a>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <?php } ?>
                                             
                                             <button type="submit" name="update" class="btn btn-success waves-effect waves-light">Update </button>

@@ -120,8 +120,9 @@ if (strlen($_SESSION['login']) == 0) {
             $category_id = $_SESSION['category_id'];
             $title = $_POST['title'];
             $descriptions = implode("\n", $_POST['paragraphs']);
+            $date = $_POST['date_news'];
             $status=1;
-            $sql = "INSERT INTO online_posts (category_id, analyze_id, link, title, description, active) VALUES ('$category_id', '$analyze_id','$link', '$title', '$descriptions', '$status')";
+            $sql = "INSERT INTO online_posts (category_id, analyze_id, link, title, date, description, active) VALUES ('$category_id', '$analyze_id','$link', '$title', '$date', '$descriptions', '$status')";
 
             // Menjalankan query dan memeriksa apakah berhasil
             if ($con->query($sql) === TRUE) {
@@ -233,11 +234,6 @@ if (strlen($_SESSION['login']) == 0) {
                         <div class="col-xs-12">
                             <div class="page-title-box">
                                 <h4 class="page-title">Tambah Berita Online </h4>
-                                <ol class="breadcrumb p-0 m-0">
-                                    <li><a href="#">Admin</a></li>
-                                    <li><a href="#">Berita Online</a></li>
-                                    <li class="active">Tambah Berita Online</li>
-                                </ol>
                             </div>
                         </div>
                     </div>
@@ -287,6 +283,7 @@ if (strlen($_SESSION['login']) == 0) {
                                                 <?php } ?>
                                             </select>
                                         </div>
+                                        
                                         <button type="submit" name="submitForm1" class="btn btn-success waves-effect waves-light">Tampilkan Data Berita</button>
                                     </form>
                                 <?php } else { ?>
@@ -300,6 +297,12 @@ if (strlen($_SESSION['login']) == 0) {
                                         <div class="form-group m-b-20">
                                             <label for="link">Link Berita</label>
                                             <input type="text" class="form-control" name="link" id="link" value="<?php echo $link; ?>" readonly>
+                                        </div>
+                                        <div class="form-group m-b-20">
+                                            <label for="exampleInputEmail1">Tanggal Berita</label>
+                                            <div class="input-group mb-3">
+                                                <input type="date" name="date_news" id="date" class="form-control" required autofocus>
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12">

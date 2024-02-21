@@ -94,11 +94,12 @@ if (strlen($_SESSION['login']) == 0) {
             $description = $_POST['description'];
             $postedby=$_SESSION['login'];
             $slug = generateSlug($title);
-            $source = $_POST['source'];
+            $source_id = $_POST['source_id'];
+            $date = $_POST['date_news'];
 
             // Query untuk melakukan insert
             $status=1;
-            $sql = "INSERT INTO offline_posts (category_id, analyze_id, title, slug, source, description, active, posted_by) VALUES ('$category_id', '$analyze_id', '$title', '$slug', '$source', '$description', '$status', '$postedby')";
+            $sql = "INSERT INTO offline_posts (category_id, analyze_id, title, slug, source_id, date, description, active, posted_by) VALUES ('$category_id', '$analyze_id', '$title', '$slug', '$source_id', '$date', '$description', '$status', '$postedby')";
 
             // Menjalankan query dan memeriksa apakah berhasil
             if ($con->query($sql) === TRUE) {
@@ -228,7 +229,17 @@ if (strlen($_SESSION['login']) == 0) {
                                             </div>
                                             <div class="form-group m-b-20">
                                                 <label for="exampleInputEmail1">Sumber Berita</label>
-                                                <input type="text" class="form-control" id="source" name="source" placeholder="Masukkan Sumber Berita" required>
+                                                <!-- <input type="text" class="form-control" id="source" name="source" placeholder="Masukkan Sumber Berita" required> -->
+                                                <select class="form-control" name="source_id" id="source_id" onChange="getSubCat(this.value);" required>
+                                                    <option value="">Pilih Sumber Berita</option>
+                                                    <?php
+                                                    // Feching active sources
+                                                    $ret = mysqli_query($con, "select id,name from  sources where active=1");
+                                                    while ($result = mysqli_fetch_array($ret)) {
+                                                    ?>
+                                                        <option value="<?php echo htmlentities($result['id']); ?>"><?php echo htmlentities($result['name']); ?></option>
+                                                    <?php } ?>
+                                                </select>
                                             </div>
                                             <div class="form-group m-b-20">
                                                 <label for="exampleInputEmail1">Kategori</label>
@@ -243,6 +254,13 @@ if (strlen($_SESSION['login']) == 0) {
                                                     <?php } ?>
                                                 </select>
                                             </div>
+                                            <div class="form-group m-b-20">
+                                                <label for="exampleInputEmail1">Tanggal Berita</label>
+                                                <div class="input-group mb-3">
+                                                    <input type="date" name="date_news" class="form-control" required autofocus>
+                                                </div>
+                                            </div>
+                                            
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="card-box">

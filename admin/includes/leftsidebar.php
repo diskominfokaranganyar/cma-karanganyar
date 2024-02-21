@@ -17,7 +17,15 @@
                         <li><a href="add-category.php">Tambah Kategori</a></li>
                         <li><a href="manage-categories.php">Kelola Kategori</a></li>
                     </ul>
-                </li>           
+                </li>   
+                
+                <li class="has_sub">
+                    <a href="manage-sources.php"><i class="mdi mdi-format-list-bulleted"></i> <span> Sumber Berita </span></a>
+                    <!-- <ul class="list-unstyled">
+                        <li><a href="add-category.php">Tambah Kategori</a></li>
+                        <li><a href="manage-categories.php">Kelola Kategori</a></li>
+                    </ul> -->
+                </li>  
                 
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-format-list-bulleted"></i> <span> Berita Offline </span> <span class="menu-arrow"></span></a>
