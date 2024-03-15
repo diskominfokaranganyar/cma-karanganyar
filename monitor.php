@@ -62,7 +62,7 @@ $hot_news = json_decode($hot_news, TRUE);
             <!-- Blog Entries Column -->
             <div class="col-md-8">
                 <!-- Blog Post -->
-                <h4 class="header-online p-2 mb-4 w-100 bg-body-secondary">Stream</h4>
+                <h4 class="header-online p-2 mb-4 w-100 bg-body-secondary">SOLOPOS</h4>
                 <!-- Blog Post -->
                 <div class="row">
                     <?php
@@ -96,7 +96,7 @@ $hot_news = json_decode($hot_news, TRUE);
                                                     </h5>
                                                 </a>
                                                 <p class="m-0 row justify-content-between align-items-center">
-                                                    <a class="badge bg-<?php echo getColorBasedOnRatingOnline($row['analisisSentimen']); ?> text-decoration-none link-light col-3 w-50 p-2" href="">
+                                                    <a class="badge bg-<?php echo getColorBasedOnRatingOnline($row['analisisSentimen']); ?> text-decoration-none link-light col-3 w-50 p-2">
                                                         <?php echo $row['analisisSentimen']; ?>
                                                     </a>
                                                 </p>
