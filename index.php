@@ -91,6 +91,7 @@ include('includes/config.php');
                     JOIN online_post_images ON online_posts.id = online_post_images.post_id AND min_images.min_serial_number = online_post_images.serial_number
                     JOIN online_post_analyze ON online_posts.analyze_id = online_post_analyze.id
                     LEFT JOIN categories ON online_posts.category_id = categories.id  -- menggunakan LEFT JOIN agar tidak kehilangan data jika tidak ada kategori yang cocok
+                    WHERE online_posts.active=1
                     ORDER BY online_posts.id DESC limit 8 -- dilimit hanya 8 berita yang muncul di beranda berdasarkan input terakhir;
                     ";
 
@@ -208,6 +209,7 @@ include('includes/config.php');
                     JOIN offline_post_images ON offline_posts.id = offline_post_images.post_id AND min_images.min_serial_number = offline_post_images.serial_number
                     JOIN offline_post_analyze ON offline_posts.analyze_id = offline_post_analyze.id
                     LEFT JOIN categories ON offline_posts.category_id = categories.id  -- menggunakan LEFT JOIN agar tidak kehilangan data jika tidak ada kategori yang cocok
+                    WHERE offline_posts.active=1
                     ORDER BY offline_posts.id DESC LIMIT 100;
                         "; // Adjust the JOIN condition based on your table structure
 
