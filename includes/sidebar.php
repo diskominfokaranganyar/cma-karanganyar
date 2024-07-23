@@ -25,7 +25,7 @@
         <div class="col-lg-6">
           <ul class="list-unstyled mb-0">
             <?php 
-              $query=mysqli_query($con,"select categories.id as catid,name from categories");
+              $query=mysqli_query($con,"select categories.id as catid,name from categories where active = 1");
               while($row=mysqli_fetch_array($query))
               {
             ?>
