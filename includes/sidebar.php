@@ -48,7 +48,7 @@
         <?php
           // Your SQL query to fetch data from the tables
           $sql = "
-          select offline_posts.id as id_offline_posts,offline_posts.title as title from offline_posts left join categories on categories.id=offline_posts.category_id ORDER BY offline_posts.id DESC limit 8;
+          select offline_posts.id as id_offline_posts,offline_posts.title as title from offline_posts left join categories on categories.id=offline_posts.category_id WHERE offline_posts.active=1 ORDER BY offline_posts.id DESC limit 8;
           "; // Adjust the JOIN condition based on your table structure
 
           // $result = $mysqli->query($sql);
@@ -73,7 +73,7 @@
       <ul class="list-unstyled">
         <?php
           // Your SQL query to fetch data from the tables
-          $query1 = mysqli_query($con, "select offline_posts.id as id_offline_posts,offline_posts.title as title from offline_posts left join categories on categories.id=offline_posts.category_id order by view_counter desc limit 5"); // Adjust the JOIN condition based on your table structure
+          $query1 = mysqli_query($con, "select offline_posts.id as id_offline_posts,offline_posts.title as title from offline_posts left join categories on categories.id=offline_posts.category_id WHERE offline_posts.active=1 order by view_counter desc limit 5"); // Adjust the JOIN condition based on your table structure
 
           while ($result=mysqli_fetch_array($query1)) 
           {
