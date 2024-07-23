@@ -98,7 +98,7 @@
                         <a class="nav-link fw-bold" aria-current="page" href="#header-online">Online</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-bold" aria-current="page" href="monitor.php">Monitor</a>
+                        <a class="nav-link fw-bold" aria-current="page" href="https://berita.kra.my.id/monitor.php" target="_blank">Monitor</a>
                     </li>
                 </ul>
                 <a href="admin/">
