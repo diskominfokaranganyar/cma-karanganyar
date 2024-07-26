@@ -292,7 +292,7 @@ if (strlen($_SESSION['login']) == 0) {
                                         <h1>category <?php echo $category_id = $_SESSION['category_id']; ?></h1>
                                         <div class="form-group m-b-20">
                                             <label for="title">Judul Berita</label>
-                                            <input type="text" class="form-control" name="title" id="title" value="<?php echo $title; ?>" readonly>
+                                            <input type="text" class="form-control" name="title" id="title" value="<?php echo $title; ?>">
                                         </div>
                                         <div class="form-group m-b-20">
                                             <label for="link">Link Berita</label>
